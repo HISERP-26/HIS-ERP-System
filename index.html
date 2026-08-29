@@ -77,11 +77,15 @@ async function signInWithMicrosoft(){
   const msg=document.getElementById('authMsg');
   msg.textContent='Opening Microsoft sign-in…';
   const redirectTo='https://hiserp-26.github.io/HIS-ERP-System/';
-  const {error}=await window.hridhaanSupabase.auth.signInWithOAuth({
+  const {data,error}=await window.hridhaanSupabase.auth.signInWithOAuth({
     provider:'azure',
-    options:{redirectTo}
+    options:{
+      redirectTo,
+      scopes:'email'
+    }
   });
-  if(error) msg.textContent='Sign-in error: '+error.message;
+  console.log('Azure OAuth response:', data, error);
+  if(error) msg.textContent='Sign-in error: '+error.message+' ('+(error.code||'no code')+')';
 }
 
 async function signOutERP(){
