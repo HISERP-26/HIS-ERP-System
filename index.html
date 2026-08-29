@@ -6,213 +6,234 @@
 <title>Hridhaan ERP • 2026–27</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;color:#172033}
-button{font:inherit}
-#login{position:fixed;inset:0;background:#172033;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
-.login-card{background:#fff;width:min(430px,100%);padding:36px;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center}
-.logo{font-size:30px;font-weight:700;color:#172033;margin-bottom:8px}
-.muted{color:#667085;line-height:1.5}
-#loginBtn{width:100%;border:0;border-radius:8px;padding:13px 18px;background:#2563eb;color:#fff;font-weight:700;cursor:pointer;margin-top:18px}
-#loginBtn:disabled{opacity:.65;cursor:wait}
-#loginError{display:none;margin-top:16px;padding:12px;border-radius:8px;background:#fff1f2;color:#b42318;text-align:left;font-size:13px;line-height:1.45}
-#app{display:none;min-height:100vh}
-header{height:64px;background:#172033;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
-.brand{font-size:20px;font-weight:700}
-.school{font-size:14px}
-.layout{display:flex;min-height:calc(100vh - 64px)}
-aside{width:230px;background:#fff;border-right:1px solid #ddd;padding:14px}
-nav button{display:block;width:100%;padding:11px 12px;margin:3px 0;text-align:left;border:0;background:#fff;border-radius:7px;color:#172033;cursor:pointer}
-nav button:hover,nav button.active{background:#e9eef7}
-main{flex:1;padding:24px;max-width:1400px}
-h1{margin:0 0 18px}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.card,.panel{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin-bottom:16px}
-.label{color:#667085;font-size:14px}
-.value{font-size:27px;font-weight:700;margin-top:8px}
-.panel h2{font-size:18px;margin-top:0}
-#status{position:fixed;right:16px;bottom:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px 11px;font-size:12px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
-#signout{border:0;background:none;color:#2563eb;cursor:pointer;margin-left:8px}
-.page{display:none}.page.active{display:block}
-@media(max-width:800px){aside{width:180px}.cards{grid-template-columns:repeat(2,1fr)}.school{display:none}}
-@media(max-width:560px){.layout{display:block}aside{width:100%;border-right:0;border-bottom:1px solid #ddd}.cards{grid-template-columns:1fr}main{padding:16px}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;color:#172033}button,input,select,textarea{font:inherit}
+button{cursor:pointer}.top{height:64px;background:#172033;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px}.brand{font-size:20px;font-weight:700}.school{font-size:14px}
+.layout{display:flex;min-height:calc(100vh - 64px)}aside{width:230px;background:#fff;border-right:1px solid #ddd;padding:14px}nav button{display:block;width:100%;padding:11px 12px;margin:3px 0;text-align:left;border:0;background:#fff;border-radius:7px;color:#172033}nav button:hover,nav button.active{background:#e9eef7}
+main{flex:1;padding:24px;min-width:0}.page{display:none}.page.active{display:block}h1{margin:0 0 18px}.panel{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin-bottom:16px}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.primary{border:0;background:#2563eb;color:#fff;padding:10px 15px;border-radius:7px;font-weight:700}.secondary{border:1px solid #cbd5e1;background:#fff;padding:10px 15px;border-radius:7px}.danger{border:0;background:#b42318;color:#fff;padding:10px 15px;border-radius:7px}
+input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:7px;padding:9px 10px;background:#fff}.search{max-width:380px}.table-wrap{overflow:auto;border:1px solid #e5e7eb;border-radius:8px}table{width:100%;border-collapse:collapse;background:#fff}th,td{padding:10px 11px;border-bottom:1px solid #e5e7eb;text-align:left;white-space:nowrap}th{background:#f8fafc;font-size:13px;color:#475467}tr:hover td{background:#fafafa}.muted{color:#667085}.badge{display:inline-block;padding:3px 8px;border-radius:99px;background:#eef2ff;font-size:12px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.value{font-size:27px;font-weight:700;margin-top:8px}.label{color:#667085;font-size:14px}
+.modal-back{position:fixed;inset:0;background:rgba(15,23,42,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal{background:#fff;border-radius:12px;width:min(900px,100%);max-height:92vh;overflow:auto;padding:22px}.modal h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}.field.full{grid-column:1/-1}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.notice{padding:11px 13px;border-radius:8px;background:#eff6ff;color:#1d4ed8;margin-bottom:14px}.error{padding:11px 13px;border-radius:8px;background:#fff1f2;color:#b42318;margin-bottom:14px}.empty{padding:28px;text-align:center;color:#667085}
+#login{position:fixed;inset:0;background:#172033;display:flex;align-items:center;justify-content:center;padding:20px;z-index:30}.login-card{background:#fff;width:min(430px,100%);padding:36px;border-radius:16px;text-align:center}.login-card .logo{font-size:30px;font-weight:700}.login-card button{width:100%;margin-top:18px}.login-error{display:none;text-align:left;margin-top:15px}
+#status{position:fixed;right:16px;bottom:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px 11px;font-size:12px;box-shadow:0 4px 18px rgba(0,0,0,.08);z-index:15}
+@media(max-width:850px){aside{width:190px}.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.layout{display:block}aside{width:100%;border-right:0;border-bottom:1px solid #ddd}.cards,.grid{grid-template-columns:1fr}main{padding:15px}.school{display:none}}
 </style>
 </head>
 <body>
 
-<section id="login">
-  <div class="login-card">
-    <div class="logo">Hridhaan ERP</div>
-    <div class="muted">Hridhaan International School • 2026–27</div>
-    <p class="muted">Sign in with your school Microsoft account to access the ERP.</p>
-    <button id="loginBtn">Sign in with Microsoft</button>
-    <div id="loginError"></div>
-  </div>
-</section>
+<section id="login"><div class="login-card">
+<div class="logo">Hridhaan ERP</div><p class="muted">Hridhaan International School • 2026–27</p>
+<p class="muted">Sign in with your school Microsoft account to access the ERP.</p>
+<button id="loginBtn" class="primary">Sign in with Microsoft</button>
+<div id="loginError" class="error login-error"></div>
+</div></section>
 
 <div id="app">
-<header>
-  <div class="brand">Hridhaan ERP</div>
-  <div class="school">Hridhaan International School • HIS • 2026–27</div>
-</header>
-
+<header class="top"><div class="brand">Hridhaan ERP</div><div class="school">Hridhaan International School • HIS • 2026–27</div></header>
 <div class="layout">
-<aside>
-<nav>
-  <button class="active" data-page="dashboard">🏠 Dashboard</button>
-  <button data-page="students">👨‍🎓 Students</button>
-  <button data-page="fees">📋 Fee Structure</button>
-  <button data-page="ledger">📒 Student Ledger</button>
-  <button data-page="cashier">💰 Cashier</button>
-  <button data-page="payments">🧾 Payments & Receipts</button>
-  <button data-page="users">👥 Users & Roles</button>
-  <button data-page="audit">📝 Audit Log</button>
-</nav>
-</aside>
-
+<aside><nav>
+<button class="active" data-page="dashboard">🏠 Dashboard</button>
+<button data-page="students">👨‍🎓 Students</button>
+<button data-page="fees">📋 Fee Structure</button>
+<button data-page="ledger">📒 Student Ledger</button>
+<button data-page="cashier">💰 Cashier</button>
+<button data-page="payments">🧾 Payments & Receipts</button>
+<button data-page="users">👥 Users & Roles</button>
+<button data-page="audit">📝 Audit Log</button>
+</nav></aside>
 <main>
 <section id="page-dashboard" class="page active">
-  <h1>Dashboard</h1>
-  <div class="panel">
-    <strong>2026–27</strong> — Live data from the Supabase database.
-  </div>
-  <div class="cards">
-    <div class="card"><div class="label">Students</div><div class="value" id="studentCount">—</div></div>
-    <div class="card"><div class="label">Demand</div><div class="value" id="demandTotal">₹0</div></div>
-    <div class="card"><div class="label">Collected</div><div class="value" id="paidTotal">₹0</div></div>
-    <div class="card"><div class="label">Outstanding</div><div class="value" id="outstandingTotal">₹0</div></div>
-  </div>
-  <div class="panel">
-    <h2>Signed-in user</h2>
-    <div id="userInfo" class="muted">Checking authentication…</div>
-  </div>
+<h1>Dashboard</h1><div class="notice">Live 2026–27 data from Supabase.</div>
+<div class="cards">
+<div class="panel"><div class="label">Students</div><div id="studentCount" class="value">—</div></div>
+<div class="panel"><div class="label">Demand</div><div id="demandTotal" class="value">₹0</div></div>
+<div class="panel"><div class="label">Collected</div><div id="paidTotal" class="value">₹0</div></div>
+<div class="panel"><div class="label">Outstanding</div><div id="outstandingTotal" class="value">₹0</div></div>
+</div>
+<div class="panel"><h2>Signed-in user</h2><div id="userInfo" class="muted">Checking authentication…</div></div>
 </section>
 
-<section id="page-students" class="page"><h1>Students</h1><div class="panel">Student Master will be connected here. Admission No. will remain the permanent unique student ID across sessions.</div></section>
-<section id="page-fees" class="page"><h1>Fee Structure</h1><div class="panel">Fee structure management will be connected to the database here.</div></section>
-<section id="page-ledger" class="page"><h1>Student Ledger</h1><div class="panel">Student-wise multi-session fee ledger will be connected here.</div></section>
-<section id="page-cashier" class="page"><h1>Cashier</h1><div class="panel">Cashier workflow will be connected here.</div></section>
-<section id="page-payments" class="page"><h1>Payments & Receipts</h1><div class="panel">Payment entry, receipt generation and reconciliation will be connected here.</div></section>
-<section id="page-users" class="page"><h1>Users & Roles</h1><div class="panel">Administrator-only user and role management will be connected here.</div></section>
-<section id="page-audit" class="page"><h1>Audit Log</h1><div class="panel">Administrative actions will be recorded here.</div></section>
-</main>
+<section id="page-students" class="page">
+<h1>Students</h1>
+<div class="panel">
+<div class="toolbar"><button id="addStudentBtn" class="primary">+ Add Student</button><input id="studentSearch" class="search" placeholder="Search admission no., name, father, class…"><select id="studentStatus" style="max-width:180px"><option value="">All status</option><option>Active</option><option>Inactive</option></select></div>
+<div id="studentMessage"></div>
+<div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student Name</th><th>Father</th><th>Class</th><th>Admission Date</th><th>Status</th><th></th></tr></thead><tbody id="studentRows"></tbody></table></div>
 </div>
+</section>
+
+<section id="page-fees" class="page"><h1>Fee Structure</h1><div class="panel">Fee structure module — next build step.</div></section>
+<section id="page-ledger" class="page"><h1>Student Ledger</h1><div class="panel">Multi-session student ledger — next build step.</div></section>
+<section id="page-cashier" class="page"><h1>Cashier</h1><div class="panel">Cashier workflow — next build step.</div></section>
+<section id="page-payments" class="page"><h1>Payments & Receipts</h1><div class="panel">Payment and receipt workflow — next build step.</div></section>
+<section id="page-users" class="page"><h1>Users & Roles</h1><div class="panel">User and role management — next build step.</div></section>
+<section id="page-audit" class="page"><h1>Audit Log</h1><div class="panel">Audit log — next build step.</div></section>
+</main></div></div>
+
+<div id="studentModal" class="modal-back"><div class="modal">
+<h2 id="modalTitle">Add Student</h2><div id="modalError" class="error" style="display:none"></div>
+<form id="studentForm"><input type="hidden" id="studentId">
+<div class="grid">
+<div class="field"><label>Admission No. <span class="muted">(unique)</span></label><input id="admissionNo" placeholder="e.g. HIS-0001"></div>
+<div class="field"><label>Admission Date</label><input id="admissionDate" type="date"></div>
+<div class="field"><label>Student Name *</label><input id="name" required></div>
+<div class="field"><label>Father</label><input id="father"></div>
+<div class="field"><label>Mother</label><input id="mother"></div>
+<div class="field"><label>Date of Birth</label><input id="dob" type="date"></div>
+<div class="field"><label>Gender</label><select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+<div class="field"><label>Current Class</label><select id="currentClass"><option value="">Select class</option></select></div>
+<div class="field"><label>Father Mobile</label><input id="fmobile"></div>
+<div class="field"><label>Mother Mobile</label><input id="mmobile"></div>
+<div class="field"><label>Email</label><input id="email" type="email"></div>
+<div class="field"><label>Category</label><input id="category"></div>
+<div class="field"><label>Blood Group</label><input id="bloodGroup"></div>
+<div class="field"><label>Transport</label><input id="transport"></div>
+<div class="field"><label>Status</label><select id="statusSelect"><option>Active</option><option>Inactive</option></select></div>
+<div class="field full"><label>Address</label><textarea id="address" rows="3"></textarea></div>
 </div>
+<div class="actions"><button type="button" id="cancelStudent" class="secondary">Cancel</button><button type="submit" class="primary">Save Student</button></div>
+</form></div></div>
 
 <div id="status">Database: checking…</div>
 
 <script>
 (function(){
-  const SUPABASE_URL = 'https://cfgbxuluyluycjcqfhsw.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_woPwqL1VighIS-JGWdGMmA_2ShE_CoK';
-  const REDIRECT_URL = 'https://hiserp-26.github.io/HIS-ERP-System/';
-  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+'use strict';
+const SUPABASE_URL='https://cfgbxuluyluycjcqfhsw.supabase.co';
+const SUPABASE_KEY='sb_publishable_woPwqL1VighIS-JGWdGMmA_2ShE_CoK';
+const REDIRECT_URL='https://hiserp-26.github.io/HIS-ERP-System/';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+let profile=null, currentUser=null, students=[], classes=[];
 
-  const login = document.getElementById('login');
-  const app = document.getElementById('app');
-  const loginBtn = document.getElementById('loginBtn');
-  const loginError = document.getElementById('loginError');
-  const status = document.getElementById('status');
+function money(v){return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(v||0))}
+function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function showError(el,msg){el.textContent=msg;el.style.display='block'}
+function clearError(el){el.textContent='';el.style.display='none'}
 
-  function showLoginError(message){
-    loginError.textContent = message;
-    loginError.style.display = 'block';
-    loginBtn.disabled = false;
-  }
+async function signIn(){
+ $('loginBtn').disabled=true; clearError($('loginError'));
+ try{
+  const r=await db.auth.signInWithOAuth({provider:'azure',options:{redirectTo:REDIRECT_URL,scopes:'email'}});
+  if(r.error) throw r.error;
+ }catch(e){showError($('loginError'),e.message||String(e));$('loginBtn').disabled=false}
+}
 
-  function money(value){
-    return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(value||0));
-  }
+async function loadProfile(){
+ const s=await db.auth.getSession(); if(s.error) throw s.error;
+ currentUser=s.data.session?.user||null;
+ if(!currentUser){$('login').style.display='flex';$('app').style.display='none';return false}
+ const r=await db.from('user_profiles').select('full_name,role,is_active').eq('id',currentUser.id).maybeSingle();
+ if(r.error) throw r.error;
+ if(!r.data) throw new Error('Microsoft sign-in succeeded, but this account is not provisioned in Hridhaan ERP.');
+ if(r.data.is_active===false) throw new Error('Your Hridhaan ERP account is inactive.');
+ profile=r.data;
+ return true;
+}
 
-  async function loginWithMicrosoft(){
-    loginBtn.disabled = true;
-    loginError.style.display = 'none';
-    try{
-      const result = await client.auth.signInWithOAuth({
-        provider:'azure',
-        options:{redirectTo:REDIRECT_URL,scopes:'email'}
-      });
-      if(result.error) throw result.error;
-    }catch(error){
-      showLoginError(error.message || String(error));
-    }
-  }
+async function loadDashboard(){
+ const [s,d,p]=await Promise.all([
+  db.from('students').select('id',{count:'exact',head:true}),
+  db.from('fee_demands').select('amount'),
+  db.from('fee_payments').select('amount')
+ ]);
+ if(s.error) throw s.error;if(d.error) throw d.error;if(p.error) throw p.error;
+ const demand=(d.data||[]).reduce((a,r)=>a+Number(r.amount||0),0);
+ const paid=(p.data||[]).reduce((a,r)=>a+Number(r.amount||0),0);
+ $('studentCount').textContent=s.count??0;$('demandTotal').textContent=money(demand);$('paidTotal').textContent=money(paid);$('outstandingTotal').textContent=money(demand-paid);
+ $('userInfo').textContent=(profile.full_name||currentUser.email)+' • '+profile.role;
+ $('status').innerHTML='Database: Supabase • '+escapeHtml(profile.role)+' <button id="signout" style="border:0;background:none;color:#2563eb">Sign out</button>';
+ $('signout').onclick=async()=>{await db.auth.signOut();location.href=REDIRECT_URL};
+}
 
-  async function loadERP(){
-    status.textContent='Database: checking…';
-    const sessionResult = await client.auth.getSession();
-    if(sessionResult.error) return showLoginError(sessionResult.error.message);
+async function loadClasses(){
+ const r=await db.from('classes').select('id,name,sort_order').order('sort_order',{ascending:true});
+ if(r.error) throw r.error;classes=r.data||[];
+ $('currentClass').innerHTML='<option value="">Select class</option>'+classes.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('');
+}
 
-    const session = sessionResult.data.session;
-    if(!session){
-      login.style.display='flex';
-      app.style.display='none';
-      status.textContent='Database: sign-in required';
-      return;
-    }
+async function loadStudents(){
+ const r=await db.from('students').select('id,admission_no,name,father,admission_date,current_class,status').order('name',{ascending:true});
+ if(r.error) throw r.error;students=r.data||[];renderStudents();
+}
 
-    const profileResult = await client
-      .from('user_profiles')
-      .select('full_name,role,is_active')
-      .eq('id',session.user.id)
-      .maybeSingle();
+function renderStudents(){
+ const q=$('studentSearch').value.trim().toLowerCase(), st=$('studentStatus').value;
+ const rows=students.filter(s=>(!st||s.status===st)&&(!q||[s.admission_no,s.name,s.father,s.current_class].some(v=>String(v||'').toLowerCase().includes(q))));
+ if(!rows.length){$('studentRows').innerHTML='<tr><td colspan="7" class="empty">No students found.</td></tr>';return}
+ $('studentRows').innerHTML=rows.map(s=>'<tr>'+
+ '<td><strong>'+escapeHtml(s.admission_no||'—')+'</strong></td>'+
+ '<td>'+escapeHtml(s.name)+'</td><td>'+escapeHtml(s.father||'—')+'</td>'+
+ '<td>'+escapeHtml(s.current_class||'—')+'</td><td>'+escapeHtml(s.admission_date||'—')+'</td>'+
+ '<td><span class="badge">'+escapeHtml(s.status)+'</span></td>'+
+ '<td><button class="secondary editStudent" data-id="'+s.id+'">Edit</button></td></tr>').join('');
+ document.querySelectorAll('.editStudent').forEach(b=>b.onclick=()=>openStudent(b.dataset.id));
+}
 
-    if(profileResult.error){
-      return showLoginError('Authentication succeeded, but the ERP user profile could not be checked: '+profileResult.error.message);
-    }
+function openStudent(id){
+ clearError($('modalError'));$('studentModal').style.display='flex';
+ $('modalTitle').textContent=id?'Edit Student':'Add Student';$('studentId').value=id||'';
+ const s=students.find(x=>x.id===id);
+ const vals=s||{};
+ $('admissionNo').value=vals.admission_no||'';$('admissionDate').value=vals.admission_date||'';
+ $('name').value=vals.name||'';$('father').value=vals.father||'';$('mother').value=vals.mother||'';
+ $('dob').value=vals.dob||'';$('gender').value=vals.gender||'';$('currentClass').value=vals.current_class||'';
+ $('fmobile').value=vals.fmobile||'';$('mmobile').value=vals.mmobile||'';$('email').value=vals.email||'';
+ $('category').value=vals.category||'';$('bloodGroup').value=vals.blood_group||'';$('transport').value=vals.transport||'';
+ $('statusSelect').value=vals.status||'Active';$('address').value=vals.address||'';
+}
 
-    const profile = profileResult.data;
-    if(!profile){
-      return showLoginError('Microsoft sign-in succeeded, but this account is not provisioned in Hridhaan ERP yet.');
-    }
-    if(profile.is_active === false){
-      return showLoginError('Your Hridhaan ERP account is inactive.');
-    }
+function closeStudent(){$('studentModal').style.display='none'}
 
-    const studentResult = await client.from('students').select('id',{count:'exact',head:true});
-    if(studentResult.error) return showLoginError('Students database error: '+studentResult.error.message);
+async function saveStudent(e){
+ e.preventDefault();clearError($('modalError'));
+ if(profile.role!=='Admin'&&profile.role!=='Administrator'){showError($('modalError'),'Only an Administrator can add or edit students.');return}
+ const id=$('studentId').value;
+ const payload={
+  admission_no:$('admissionNo').value.trim()||null,admission_date:$('admissionDate').value||null,
+  name:$('name').value.trim(),father:$('father').value.trim()||null,mother:$('mother').value.trim()||null,
+  dob:$('dob').value||null,gender:$('gender').value||null,current_class:$('currentClass').value||null,
+  fmobile:$('fmobile').value.trim()||null,mmobile:$('mmobile').value.trim()||null,email:$('email').value.trim()||null,
+  category:$('category').value.trim()||null,blood_group:$('bloodGroup').value.trim()||null,transport:$('transport').value.trim()||null,
+  status:$('statusSelect').value,address:$('address').value.trim()||null,updated_at:new Date().toISOString()
+ };
+ if(!payload.name){showError($('modalError'),'Student Name is required.');return}
+ let r;
+ if(id) r=await db.from('students').update(payload).eq('id',id);
+ else r=await db.from('students').insert(payload);
+ if(r.error){
+  if(r.error.code==='23505') showError($('modalError'),'That Admission No. is already assigned to another student.');
+  else showError($('modalError'),r.error.message||'Unable to save student.');
+  return;
+ }
+ closeStudent();await loadStudents();await loadDashboard();
+ $('studentMessage').innerHTML='<div class="notice">Student saved successfully.</div>';
+ setTimeout(()=>{$('studentMessage').innerHTML=''},2500);
+}
 
-    const demandResult = await client.from('fee_demands').select('amount');
-    if(demandResult.error) return showLoginError('Fee demand database error: '+demandResult.error.message);
+async function boot(){
+ try{
+  if(!await loadProfile())return;
+  $('login').style.display='none';$('app').style.display='block';
+  await Promise.all([loadDashboard(),loadClasses(),loadStudents()]);
+  $('status').textContent='Database: connected';
+ }catch(e){
+  $('login').style.display='flex';$('app').style.display='none';showError($('loginError'),e.message||String(e));$('status').textContent='Database: error';
+ }
+}
 
-    const paymentResult = await client.from('fee_payments').select('amount');
-    if(paymentResult.error) return showLoginError('Payment database error: '+paymentResult.error.message);
-
-    const demand = (demandResult.data||[]).reduce((sum,row)=>sum+Number(row.amount||0),0);
-    const paid = (paymentResult.data||[]).reduce((sum,row)=>sum+Number(row.amount||0),0);
-
-    document.getElementById('studentCount').textContent = studentResult.count ?? 0;
-    document.getElementById('demandTotal').textContent = money(demand);
-    document.getElementById('paidTotal').textContent = money(paid);
-    document.getElementById('outstandingTotal').textContent = money(demand-paid);
-    document.getElementById('userInfo').textContent =
-      (profile.full_name || session.user.email || 'User')+' • '+(profile.role || 'User');
-
-    login.style.display='none';
-    app.style.display='block';
-    status.innerHTML='Database: Supabase • '+(profile.role || 'User')+' <button id="signout">Sign out</button>';
-    document.getElementById('signout').addEventListener('click',async function(){
-      await client.auth.signOut();
-      window.location.href=REDIRECT_URL;
-    });
-  }
-
-  loginBtn.addEventListener('click',loginWithMicrosoft);
-
-  document.querySelectorAll('nav button[data-page]').forEach(function(button){
-    button.addEventListener('click',function(){
-      document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active')});
-      button.classList.add('active');
-      document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
-      document.getElementById('page-'+button.dataset.page).classList.add('active');
-    });
-  });
-
-  client.auth.onAuthStateChange(function(){
-    window.setTimeout(loadERP,0);
-  });
-
-  loadERP();
+$('loginBtn').onclick=signIn;
+$('addStudentBtn').onclick=()=>openStudent('');
+$('cancelStudent').onclick=closeStudent;
+$('studentForm').onsubmit=saveStudent;
+$('studentSearch').oninput=renderStudents;
+$('studentStatus').onchange=renderStudents;
+document.querySelectorAll('nav button[data-page]').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$('page-'+b.dataset.page).classList.add('active');
+});
+db.auth.onAuthStateChange(()=>setTimeout(boot,0));
+boot();
 })();
 </script>
 </body>
