@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hridhaan ERP • 2026–27</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;color:#172033}
+button{font:inherit}
+#login{position:fixed;inset:0;background:#172033;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+.login-card{background:#fff;width:min(430px,100%);padding:36px;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center}
+.logo{font-size:30px;font-weight:700;color:#172033;margin-bottom:8px}
+.muted{color:#667085;line-height:1.5}
+#loginBtn{width:100%;border:0;border-radius:8px;padding:13px 18px;background:#2563eb;color:#fff;font-weight:700;cursor:pointer;margin-top:18px}
+#loginBtn:disabled{opacity:.65;cursor:wait}
+#loginError{display:none;margin-top:16px;padding:12px;border-radius:8px;background:#fff1f2;color:#b42318;text-align:left;font-size:13px;line-height:1.45}
+#app{display:none;min-height:100vh}
+header{height:64px;background:#172033;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 22px}
+.brand{font-size:20px;font-weight:700}
+.school{font-size:14px}
+.layout{display:flex;min-height:calc(100vh - 64px)}
+aside{width:230px;background:#fff;border-right:1px solid #ddd;padding:14px}
+nav button{display:block;width:100%;padding:11px 12px;margin:3px 0;text-align:left;border:0;background:#fff;border-radius:7px;color:#172033;cursor:pointer}
+nav button:hover,nav button.active{background:#e9eef7}
+main{flex:1;padding:24px;max-width:1400px}
+h1{margin:0 0 18px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card,.panel{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px;margin-bottom:16px}
+.label{color:#667085;font-size:14px}
+.value{font-size:27px;font-weight:700;margin-top:8px}
+.panel h2{font-size:18px;margin-top:0}
+#status{position:fixed;right:16px;bottom:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:8px 11px;font-size:12px;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+#signout{border:0;background:none;color:#2563eb;cursor:pointer;margin-left:8px}
+.page{display:none}.page.active{display:block}
+@media(max-width:800px){aside{width:180px}.cards{grid-template-columns:repeat(2,1fr)}.school{display:none}}
+@media(max-width:560px){.layout{display:block}aside{width:100%;border-right:0;border-bottom:1px solid #ddd}.cards{grid-template-columns:1fr}main{padding:16px}}
+</style>
+</head>
+<body>
+
+<section id="login">
+  <div class="login-card">
+    <div class="logo">Hridhaan ERP</div>
+    <div class="muted">Hridhaan International School • 2026–27</div>
+    <p class="muted">Sign in with your school Microsoft account to access the ERP.</p>
+    <button id="loginBtn">Sign in with Microsoft</button>
+    <div id="loginError"></div>
+  </div>
+</section>
+
+<div id="app">
+<header>
+  <div class="brand">Hridhaan ERP</div>
+  <div class="school">Hridhaan International School • HIS • 2026–27</div>
+</header>
+
+<div class="layout">
+<aside>
+<nav>
+  <button class="active" data-page="dashboard">🏠 Dashboard</button>
+  <button data-page="students">👨‍🎓 Students</button>
+  <button data-page="fees">📋 Fee Structure</button>
+  <button data-page="ledger">📒 Student Ledger</button>
+  <button data-page="cashier">💰 Cashier</button>
+  <button data-page="payments">🧾 Payments & Receipts</button>
+  <button data-page="users">👥 Users & Roles</button>
+  <button data-page="audit">📝 Audit Log</button>
+</nav>
+</aside>
+
+<main>
+<section id="page-dashboard" class="page active">
+  <h1>Dashboard</h1>
+  <div class="panel">
+    <strong>2026–27</strong> — Live data from the Supabase database.
+  </div>
+  <div class="cards">
+    <div class="card"><div class="label">Students</div><div class="value" id="studentCount">—</div></div>
+    <div class="card"><div class="label">Demand</div><div class="value" id="demandTotal">₹0</div></div>
+    <div class="card"><div class="label">Collected</div><div class="value" id="paidTotal">₹0</div></div>
+    <div class="card"><div class="label">Outstanding</div><div class="value" id="outstandingTotal">₹0</div></div>
+  </div>
+  <div class="panel">
+    <h2>Signed-in user</h2>
+    <div id="userInfo" class="muted">Checking authentication…</div>
+  </div>
+</section>
+
+<section id="page-students" class="page"><h1>Students</h1><div class="panel">Student Master will be connected here. Admission No. will remain the permanent unique student ID across sessions.</div></section>
+<section id="page-fees" class="page"><h1>Fee Structure</h1><div class="panel">Fee structure management will be connected to the database here.</div></section>
+<section id="page-ledger" class="page"><h1>Student Ledger</h1><div class="panel">Student-wise multi-session fee ledger will be connected here.</div></section>
+<section id="page-cashier" class="page"><h1>Cashier</h1><div class="panel">Cashier workflow will be connected here.</div></section>
+<section id="page-payments" class="page"><h1>Payments & Receipts</h1><div class="panel">Payment entry, receipt generation and reconciliation will be connected here.</div></section>
+<section id="page-users" class="page"><h1>Users & Roles</h1><div class="panel">Administrator-only user and role management will be connected here.</div></section>
+<section id="page-audit" class="page"><h1>Audit Log</h1><div class="panel">Administrative actions will be recorded here.</div></section>
+</main>
+</div>
+</div>
+
+<div id="status">Database: checking…</div>
+
+<script>
+(function(){
+  const SUPABASE_URL = 'https://cfgbxuluyluycjcqfhsw.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_woPwqL1VighIS-JGWdGMmA_2ShE_CoK';
+  const REDIRECT_URL = 'https://hiserp-26.github.io/HIS-ERP-System/';
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const login = document.getElementById('login');
+  const app = document.getElementById('app');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginError = document.getElementById('loginError');
+  const status = document.getElementById('status');
+
+  function showLoginError(message){
+    loginError.textContent = message;
+    loginError.style.display = 'block';
+    loginBtn.disabled = false;
+  }
+
+  function money(value){
+    return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(value||0));
+  }
+
+  async function loginWithMicrosoft(){
+    loginBtn.disabled = true;
+    loginError.style.display = 'none';
+    try{
+      const result = await client.auth.signInWithOAuth({
+        provider:'azure',
+        options:{redirectTo:REDIRECT_URL,scopes:'email'}
+      });
+      if(result.error) throw result.error;
+    }catch(error){
+      showLoginError(error.message || String(error));
+    }
+  }
+
+  async function loadERP(){
+    status.textContent='Database: checking…';
+    const sessionResult = await client.auth.getSession();
+    if(sessionResult.error) return showLoginError(sessionResult.error.message);
+
+    const session = sessionResult.data.session;
+    if(!session){
+      login.style.display='flex';
+      app.style.display='none';
+      status.textContent='Database: sign-in required';
+      return;
+    }
+
+    const profileResult = await client
+      .from('user_profiles')
+      .select('full_name,role,is_active')
+      .eq('id',session.user.id)
+      .maybeSingle();
+
+    if(profileResult.error){
+      return showLoginError('Authentication succeeded, but the ERP user profile could not be checked: '+profileResult.error.message);
+    }
+
+    const profile = profileResult.data;
+    if(!profile){
+      return showLoginError('Microsoft sign-in succeeded, but this account is not provisioned in Hridhaan ERP yet.');
+    }
+    if(profile.is_active === false){
+      return showLoginError('Your Hridhaan ERP account is inactive.');
+    }
+
+    const studentResult = await client.from('students').select('id',{count:'exact',head:true});
+    if(studentResult.error) return showLoginError('Students database error: '+studentResult.error.message);
+
+    const demandResult = await client.from('fee_demands').select('amount');
+    if(demandResult.error) return showLoginError('Fee demand database error: '+demandResult.error.message);
+
+    const paymentResult = await client.from('fee_payments').select('amount');
+    if(paymentResult.error) return showLoginError('Payment database error: '+paymentResult.error.message);
+
+    const demand = (demandResult.data||[]).reduce((sum,row)=>sum+Number(row.amount||0),0);
+    const paid = (paymentResult.data||[]).reduce((sum,row)=>sum+Number(row.amount||0),0);
+
+    document.getElementById('studentCount').textContent = studentResult.count ?? 0;
+    document.getElementById('demandTotal').textContent = money(demand);
+    document.getElementById('paidTotal').textContent = money(paid);
+    document.getElementById('outstandingTotal').textContent = money(demand-paid);
+    document.getElementById('userInfo').textContent =
+      (profile.full_name || session.user.email || 'User')+' • '+(profile.role || 'User');
+
+    login.style.display='none';
+    app.style.display='block';
+    status.innerHTML='Database: Supabase • '+(profile.role || 'User')+' <button id="signout">Sign out</button>';
+    document.getElementById('signout').addEventListener('click',async function(){
+      await client.auth.signOut();
+      window.location.href=REDIRECT_URL;
+    });
+  }
+
+  loginBtn.addEventListener('click',loginWithMicrosoft);
+
+  document.querySelectorAll('nav button[data-page]').forEach(function(button){
+    button.addEventListener('click',function(){
+      document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active')});
+      button.classList.add('active');
+      document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+      document.getElementById('page-'+button.dataset.page).classList.add('active');
+    });
+  });
+
+  client.auth.onAuthStateChange(function(){
+    window.setTimeout(loadERP,0);
+  });
+
+  loadERP();
+})();
+</script>
+</body>
+</html>
