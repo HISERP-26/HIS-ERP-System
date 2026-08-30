@@ -1,0 +1,60 @@
+name: Apply Student Fee Profile
+on:
+  push:
+    branches: [feature/student-fee-profile]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: "!contains(github.event.head_commit.message, '[fee-profile-applied]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index.html
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          old='''<div class="actions"><button type="button" id="addSessionBtn" class="primary">+ Add Session</button><button type="button" id="closeProfile" class="secondary">Close</button></div></div></div>'''
+          new='''<div class="actions"><button type="button" id="addSessionBtn" class="primary">+ Add Session</button><button type="button" id="openFeeProfileBtn" class="primary">Fee Profile</button><button type="button" id="closeProfile" class="secondary">Close</button></div></div></div>'''
+          if old not in s: raise SystemExit('profile action anchor not found')
+          s=s.replace(old,new,1)
+          marker='<div id="sessionModal" class="modal-back">'
+          modal='''<div id="feeProfileModal" class="modal-back"><div class="modal"><h2 id="feeProfileTitle">Student Fee Profile</h2><div id="feeProfileError" class="error" style="display:none"></div><div class="notice">Student-level amounts override the class fee structure for this academic session.</div><form id="feeProfileForm"><input type="hidden" id="feeProfileStudentId"><div class="grid"><div class="field full"><label>Academic Session *</label><select id="feeProfileSession" required></select></div><div class="field"><label>Annual Fee</label><input id="feeAnnual" type="number" min="0" step="0.01"></div><div class="field"><label>Sports</label><input id="feeSports" type="number" min="0" step="0.01"></div><div class="field"><label>Exam Fee</label><input id="feeExam" type="number" min="0" step="0.01"></div><div class="field"><label>Tuition Fee / Month</label><input id="feeTuition" type="number" min="0" step="0.01"></div><div class="field"><label>Transport Charge / Month</label><input id="feeTransport" type="number" min="0" step="0.01"></div><div class="field"><label>Other Fee</label><input id="feeOther" type="number" min="0" step="0.01"></div><div class="field full"><label>Notes</label><textarea id="feeProfileNotes" rows="2" placeholder="Student-specific fee arrangement"></textarea></div></div><div class="actions"><button type="button" id="cancelFeeProfile" class="secondary">Cancel</button><button class="primary" type="submit">Save Fee Profile</button></div></form></div></div>'''
+          if 'id="feeProfileModal"' not in s:
+              if marker not in s: raise SystemExit('session modal anchor not found')
+              s=s.replace(marker,modal+marker,1)
+          handler="$('closeProfile').onclick=()=>{$('profileModal').style.display='none'};"
+          repl=handler+"$('openFeeProfileBtn').onclick=async()=>{const id=$('profileModal').dataset.studentId;if(id)await openFeeProfile(id)};$('cancelFeeProfile').onclick=()=>{$('feeProfileModal').style.display='none'};$('feeProfileForm').onsubmit=saveFeeProfile;"
+          if 'openFeeProfile(id)' not in s:
+              if handler not in s: raise SystemExit('profile handler anchor not found')
+              s=s.replace(handler,repl,1)
+          fn_anchor='async function openSessionForm(studentId,recordId){'
+          functions='''const FEE_PROFILE_HEADS=[['Annual Fee','Annual','feeAnnual'],['Sports','Annual','feeSports'],['Exam Fee','Annual','feeExam'],['Tuition Fee','Monthly','feeTuition'],['Transport Charge','Monthly','feeTransport'],['Other Fee','As required','feeOther']];
+async function openFeeProfile(studentId){clearError($('feeProfileError'));await loadAcademicSessions();setOptions('feeProfileSession',academicSessions,'Select session',x=>x.name+(x.is_current?' (Current)':''));$('feeProfileStudentId').value=studentId;const student=students.find(x=>x.id===studentId);$('feeProfileTitle').textContent='Fee Profile — '+(student?.name||'Student');FEE_PROFILE_HEADS.forEach(([h,f,id])=>{$(id).value='';});$('feeProfileNotes').value='';const sid=academicSessions.find(x=>x.is_current)?.id||academicSessions[0]?.id||'';$('feeProfileSession').value=sid;if(sid)await loadFeeProfileValues(studentId,sid);$('feeProfileSession').onchange=()=>loadFeeProfileValues(studentId,$('feeProfileSession').value);$('feeProfileModal').style.display='flex'}
+async function loadFeeProfileValues(studentId,sessionId){clearError($('feeProfileError'));if(!sessionId)return;const r=await db.from('student_fee_profiles').select('fee_type,amount,frequency,is_applicable,notes').eq('student_id',studentId).eq('academic_session_id',sessionId);if(r.error){showError($('feeProfileError'),r.error.message);return}const by=new Map((r.data||[]).map(x=>[x.fee_type,x]));FEE_PROFILE_HEADS.forEach(([h,f,id])=>{$(id).value=by.get(h)?.amount??'';});$('feeProfileNotes').value=[...by.values()].find(x=>x.notes)?.notes||''}
+async function saveFeeProfile(e){e.preventDefault();clearError($('feeProfileError'));if(!adminOnly()){showError($('feeProfileError'),'Only an Administrator can manage student fee profiles.');return}const studentId=$('feeProfileStudentId').value,sessionId=$('feeProfileSession').value;if(!studentId||!sessionId){showError($('feeProfileError'),'Student and academic session are required.');return}try{for(const [head,freq,id] of FEE_PROFILE_HEADS){const raw=$(id).value;const amount=raw===''?0:Number(raw);if(!Number.isFinite(amount)||amount<0)throw new Error('Enter valid amounts for all fee heads.');const payload={school_id:schoolId,student_id:studentId,academic_session_id:sessionId,fee_type:head,amount,frequency:freq,is_applicable:amount>0,notes:$('feeProfileNotes').value.trim()||null,updated_at:new Date().toISOString()};const r=await db.from('student_fee_profiles').upsert(payload,{onConflict:'student_id,academic_session_id,fee_type'});if(r.error)throw r.error}$('feeProfileModal').style.display='none';$('profileError').style.display='none';$('feeMessage').innerHTML='<div class="notice">Student fee profile saved successfully.</div>';await audit('STUDENT_FEE_PROFILE_UPDATED','student_fee_profile',studentId,{academic_session_id:sessionId});}catch(err){showError($('feeProfileError'),err.message||String(err))}}
+'''
+          if 'const FEE_PROFILE_HEADS=' not in s:
+              if fn_anchor not in s: raise SystemExit('session function anchor not found')
+              s=s.replace(fn_anchor,functions+fn_anchor,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          for marker in ['id="feeProfileModal"','openFeeProfile','saveFeeProfile','student_fee_profiles']:
+              assert marker in s, marker
+          js=s.split('<script>\n',1)[1].split('\n</script>',1)[0]
+          Path('/tmp/erp.js').write_text(js,encoding='utf-8')
+          PY
+          node --check /tmp/erp.js
+      - name: Commit and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/apply-student-fee-profile.yml
+          git add index.html
+          git commit -m 'Add student fee profile UI [fee-profile-applied]'
+          git push
