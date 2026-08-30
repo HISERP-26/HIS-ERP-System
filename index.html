@@ -20,499 +20,63 @@ input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:7px;padd
 </style>
 </head>
 <body>
-
-<section id="login"><div class="login-card">
-<div class="logo">Hridhaan ERP</div><p class="muted">Hridhaan International School • 2026–27</p>
-<p class="muted">Sign in with your school Microsoft account to access the ERP.</p>
-<button id="loginBtn" class="primary">Sign in with Microsoft</button>
-<div id="loginError" class="error login-error"></div>
-</div></section>
-
-<div id="app">
-<header class="top"><div class="brand">Hridhaan ERP</div><div class="school">Hridhaan International School • HIS • 2026–27</div></header>
-<div class="layout">
-<aside><nav>
-<button class="active" data-page="dashboard">🏠 Dashboard</button>
-<button data-page="students">👨‍🎓 Students</button>
-<button data-page="fees">📋 Fee Structure</button>
-<button data-page="ledger">📒 Student Ledger</button>
-<button data-page="cashier">💰 Cashier</button>
-<button data-page="payments">🧾 Payments & Receipts</button>
-<button data-page="users">👥 Users & Roles</button>
-<button data-page="audit">📝 Audit Log</button>
-</nav></aside>
-<main>
-<section id="page-dashboard" class="page active">
-<h1>Dashboard</h1><div class="notice">Live 2026–27 data from Supabase.</div>
-<div class="cards">
-<div class="panel"><div class="label">Students</div><div id="studentCount" class="value">—</div></div>
-<div class="panel"><div class="label">Demand</div><div id="demandTotal" class="value">₹0</div></div>
-<div class="panel"><div class="label">Collected</div><div id="paidTotal" class="value">₹0</div></div>
-<div class="panel"><div class="label">Outstanding</div><div id="outstandingTotal" class="value">₹0</div></div>
-</div>
-<div class="panel"><h2>Signed-in user</h2><div id="userInfo" class="muted">Checking authentication…</div></div>
-</section>
-
-<section id="page-students" class="page">
-<h1>Students</h1>
-<div class="panel">
-<div class="toolbar"><button id="addStudentBtn" class="primary">+ Add Student</button><input id="studentSearch" class="search" placeholder="Search admission no., name, father, class…"><select id="studentStatus" style="max-width:180px"><option value="">All status</option><option>Active</option><option>Inactive</option></select></div>
-<div id="studentMessage"></div>
-<div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student Name</th><th>Father</th><th>Class</th><th>Admission Date</th><th>Status</th><th></th></tr></thead><tbody id="studentRows"></tbody></table></div>
-</div>
-</section>
-
-
-<section id="page-fees" class="page"><h1>Fee Structure</h1>
-<div class="panel"><div class="toolbar"><button id="addFeeBtn" class="primary">+ Add Fee Rule</button><button id="generateDemandBtn" class="secondary">Generate Demand</button><select id="feeSessionFilter" class="search"></select><select id="feeClassFilter" class="search"></select></div><div id="feeMessage"></div>
-<div class="table-wrap"><table><thead><tr><th>Session</th><th>Class</th><th>Fee Type</th><th>Amount</th><th>Frequency</th><th></th></tr></thead><tbody id="feeRows"></tbody></table></div></div></section>
-
-<section id="page-ledger" class="page"><h1>Student Ledger</h1>
-<div class="panel"><div class="toolbar"><select id="ledgerStudent" class="search"><option value="">Select student</option></select><select id="ledgerSession" class="search"><option value="">All sessions</option></select></div><div id="ledgerSummary" class="cards"></div><div class="table-wrap"><table><thead><tr><th>Session</th><th>Date</th><th>Type</th><th>Details</th><th>Demand</th><th>Paid</th><th>Balance</th></tr></thead><tbody id="ledgerRows"></tbody></table></div></div></section>
-
-<section id="page-cashier" class="page"><h1>Cashier</h1>
-<div class="panel"><div class="notice">Record a payment against the student's academic session. A receipt is created automatically.</div>
-<button id="newPaymentBtn" class="primary">+ Collect Fee</button><div id="cashierMessage" style="margin-top:12px"></div></div></section>
-
-<section id="page-payments" class="page"><h1>Payments & Receipts</h1>
-<div class="panel"><div class="toolbar"><button id="paymentRefresh" class="secondary">Refresh</button><input id="paymentSearch" class="search" placeholder="Search student / receipt / reference"></div>
-<div class="table-wrap"><table><thead><tr><th>Date</th><th>Receipt</th><th>Student</th><th>Session</th><th>Mode</th><th>Amount</th><th>Reference</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
-
-<section id="page-users" class="page"><h1>Users & Roles</h1>
-<div class="panel"><div class="notice">User accounts are created in Microsoft Entra/Supabase Auth. This screen controls ERP role and active status for existing profiles.</div>
-<div class="table-wrap"><table><thead><tr><th>Name</th><th>User ID</th><th>Role</th><th>Active</th><th></th></tr></thead><tbody id="userRows"></tbody></table></div></div></section>
-
-<section id="page-audit" class="page"><h1>Audit Log</h1>
-<div class="panel"><div class="toolbar"><button id="auditRefresh" class="secondary">Refresh</button></div>
-<div class="table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Entity</th><th>User</th><th>Details</th></tr></thead><tbody id="auditRows"></tbody></table></div></div></section>
+<section id="login"><div class="login-card"><div class="logo">Hridhaan ERP</div><p class="muted">Hridhaan International School • 2026–27</p><p class="muted">Sign in with your school Microsoft account to access the ERP.</p><button id="loginBtn" class="primary">Sign in with Microsoft</button><div id="loginError" class="error login-error"></div></div></section>
+<div id="app"><header class="top"><div class="brand">Hridhaan ERP</div><div class="school">Hridhaan International School • HIS • 2026–27</div></header><div class="layout"><aside><nav><button class="active" data-page="dashboard">🏠 Dashboard</button><button data-page="students">👨‍🎓 Students</button><button data-page="fees">📋 Fee Structure</button><button data-page="ledger">📒 Student Ledger</button><button data-page="cashier">💰 Cashier</button><button data-page="payments">🧾 Payments & Receipts</button><button data-page="users">👥 Users & Roles</button><button data-page="audit">📝 Audit Log</button></nav></aside><main>
+<section id="page-dashboard" class="page active"><h1>Dashboard</h1><div class="notice">Class-wise fee reporting for the selected academic session and month.</div><div class="toolbar"><select id="dashSession" class="search"></select><select id="dashMonth" class="search"></select></div><div class="cards"><div class="panel"><div class="label">Students</div><div id="studentCount" class="value">—</div></div><div class="panel"><div class="label">Demand</div><div id="demandTotal" class="value">₹0</div></div><div class="panel"><div class="label">Collected</div><div id="paidTotal" class="value">₹0</div></div><div class="panel"><div class="label">Outstanding</div><div id="outstandingTotal" class="value">₹0</div></div><div class="panel"><div class="label">Due</div><div id="dueTotal" class="value">₹0</div></div><div class="panel"><div class="label">Overdue</div><div id="overdueTotal" class="value">₹0</div></div></div><div class="panel"><h2>Class-wise Fee Summary</h2><div class="table-wrap"><table><thead><tr><th>Class</th><th>Students</th><th>Demand</th><th>Collected</th><th>Balance</th><th>Due</th><th>Overdue</th></tr></thead><tbody id="dashClassRows"></tbody></table></div></div><div class="panel"><h2>Fee-head Summary</h2><div class="table-wrap"><table><thead><tr><th>Fee Head</th><th>Demand</th><th>Collected</th><th>Balance</th></tr></thead><tbody id="dashFeeRows"></tbody></table></div></div><div class="panel"><h2>Signed-in user</h2><div id="userInfo" class="muted">Checking authentication…</div></div></section>
+<section id="page-students" class="page"><h1>Students</h1><div class="panel"><div class="toolbar"><button id="addStudentBtn" class="primary">+ Add Student</button><input id="studentSearch" class="search" placeholder="Search admission no., name, father, class…"><select id="studentStatus" style="max-width:180px"><option value="">All status</option><option>Active</option><option>Inactive</option></select></div><div id="studentMessage"></div><div class="table-wrap"><table><thead><tr><th>Admission No.</th><th>Student Name</th><th>Father</th><th>Class</th><th>Admission Date</th><th>Status</th><th></th></tr></thead><tbody id="studentRows"></tbody></table></div></div></section>
+<section id="page-fees" class="page"><h1>Fee Structure</h1><div class="panel"><div class="toolbar"><button id="addFeeBtn" class="primary">+ Add Fee Rule</button><button id="generateDemandBtn" class="secondary">Generate Demand</button><select id="feeSessionFilter" class="search"></select><select id="feeClassFilter" class="search"></select></div><div id="feeMessage"></div><div class="table-wrap"><table><thead><tr><th>Session</th><th>Class</th><th>Fee Type</th><th>Amount</th><th>Frequency</th><th></th></tr></thead><tbody id="feeRows"></tbody></table></div></div></section>
+<section id="page-ledger" class="page"><h1>Student Ledger</h1><div class="panel"><div class="toolbar"><select id="ledgerStudent" class="search"><option value="">Select student</option></select><select id="ledgerSession" class="search"><option value="">All sessions</option></select></div><div id="ledgerSummary" class="cards"></div><div class="table-wrap"><table><thead><tr><th>Session</th><th>Date</th><th>Type</th><th>Details</th><th>Demand</th><th>Paid</th><th>Balance</th></tr></thead><tbody id="ledgerRows"></tbody></table></div></div></section>
+<section id="page-cashier" class="page"><h1>Cashier</h1><div class="panel"><div class="notice">Record a payment against the student's academic session. A receipt is created automatically.</div><button id="newPaymentBtn" class="primary">+ Collect Fee</button><div id="cashierMessage" style="margin-top:12px"></div></div></section>
+<section id="page-payments" class="page"><h1>Payments & Receipts</h1><div class="panel"><div class="toolbar"><button id="paymentRefresh" class="secondary">Refresh</button><input id="paymentSearch" class="search" placeholder="Search student / receipt / reference"></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Receipt</th><th>Student</th><th>Session</th><th>Mode</th><th>Amount</th><th>Reference</th><th></th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
+<section id="page-users" class="page"><h1>Users & Roles</h1><div class="panel"><div class="notice">User accounts are created in Microsoft Entra/Supabase Auth. This screen controls ERP role and active status for existing profiles.</div><div class="table-wrap"><table><thead><tr><th>Name</th><th>User ID</th><th>Role</th><th>Active</th><th></th></tr></thead><tbody id="userRows"></tbody></table></div></div></section>
+<section id="page-audit" class="page"><h1>Audit Log</h1><div class="panel"><div class="toolbar"><button id="auditRefresh" class="secondary">Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Entity</th><th>User</th><th>Details</th></tr></thead><tbody id="auditRows"></tbody></table></div></div></section>
 </main></div></div>
-
-<div id="studentModal" class="modal-back"><div class="modal">
-<h2 id="modalTitle">Add Student</h2><div id="modalError" class="error" style="display:none"></div>
-<form id="studentForm"><input type="hidden" id="studentId">
-<div class="grid">
-<div class="field"><label>Admission No. <span class="muted">(unique)</span></label><input id="admissionNo" placeholder="e.g. HIS-0001"></div>
-<div class="field"><label>Admission Date</label><input id="admissionDate" type="date"></div>
-<div class="field"><label>Student Name *</label><input id="name" required></div>
-<div class="field"><label>Father</label><input id="father"></div>
-<div class="field"><label>Mother</label><input id="mother"></div>
-<div class="field"><label>Date of Birth</label><input id="dob" type="date"></div>
-<div class="field"><label>Gender</label><select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-<div class="field"><label>Current Class</label><select id="currentClass"><option value="">Select class</option></select></div>
-<div class="field"><label>Father Mobile</label><input id="fmobile"></div>
-<div class="field"><label>Mother Mobile</label><input id="mmobile"></div>
-<div class="field"><label>Email</label><input id="email" type="email"></div>
-<div class="field"><label>Category</label><input id="category"></div>
-<div class="field"><label>Blood Group</label><input id="bloodGroup"></div>
-<div class="field"><label>Transport</label><input id="transport"></div>
-<div class="field"><label>Status</label><select id="statusSelect"><option>Active</option><option>Inactive</option></select></div>
-<div class="field full"><label>Address</label><textarea id="address" rows="3"></textarea></div>
-</div>
-<div class="actions"><button type="button" id="cancelStudent" class="secondary">Cancel</button><button type="submit" class="primary">Save Student</button></div>
-</form></div></div>
-
-
-<div id="profileModal" class="modal-back"><div class="modal">
-<h2 id="profileTitle">Student Profile</h2><div id="profileError" class="error" style="display:none"></div>
-<div class="panel"><div class="grid">
-<div><div class="muted">Admission No.</div><strong id="pAdmissionNo">—</strong></div>
-<div><div class="muted">Student</div><strong id="pName">—</strong></div>
-<div><div class="muted">Father</div><strong id="pFather">—</strong></div>
-<div><div class="muted">Admission Date</div><strong id="pAdmissionDate">—</strong></div>
-</div></div>
-<h3>Academic Session History</h3>
-<div class="table-wrap"><table><thead><tr><th>Session</th><th>Class</th><th>Section</th><th>Roll No.</th><th>Status</th><th></th></tr></thead><tbody id="sessionRows"></tbody></table></div>
-<div class="actions"><button type="button" id="addSessionBtn" class="primary">+ Add Session</button><button type="button" id="closeProfile" class="secondary">Close</button></div>
-</div></div>
-
-<div id="sessionModal" class="modal-back"><div class="modal">
-<h2>Academic Session</h2><div id="sessionError" class="error" style="display:none"></div>
-<form id="sessionForm"><input type="hidden" id="sessionRecordId"><input type="hidden" id="sessionStudentId">
-<div class="grid">
-<div class="field"><label>Academic Session *</label><select id="sessionSelect" required></select></div>
-<div class="field"><label>Class *</label><select id="sessionClassSelect" required></select></div>
-<div class="field"><label>Section</label><select id="sessionSectionSelect"><option value="">Select section</option></select></div>
-<div class="field"><label>Roll No.</label><input id="sessionRollNo"></div>
-<div class="field"><label>Status</label><select id="sessionStatus"><option>Active</option><option>Inactive</option><option>Left</option></select></div>
-</div>
-<div class="actions"><button type="button" id="cancelSession" class="secondary">Cancel</button><button class="primary" type="submit">Save Session</button></div>
-</form></div></div>
-
-
-<div id="feeModal" class="modal-back"><div class="modal"><h2 id="feeModalTitle">Add Fee Rule</h2><div id="feeError" class="error" style="display:none"></div>
-<form id="feeForm"><input type="hidden" id="feeId"><div class="grid">
-<div class="field"><label>Academic Session *</label><select id="feeSession" required></select></div>
-<div class="field"><label>Class</label><select id="feeClass"></select></div>
-<div class="field"><label>Fee Type *</label><input id="feeType" required placeholder="Tuition Fee"></div>
-<div class="field"><label>Amount *</label><input id="feeAmount" type="number" min="0" step="0.01" required></div>
-<div class="field"><label>Frequency</label><select id="feeFrequency"><option>Annual</option><option>Monthly</option><option>Quarterly</option><option>One-time</option></select></div>
-</div><div class="actions"><button type="button" id="cancelFee" class="secondary">Cancel</button><button class="primary">Save</button></div></form></div></div>
-
-<div id="paymentModal" class="modal-back"><div class="modal"><h2>Collect Fee</h2><div id="paymentError" class="error" style="display:none"></div>
-<form id="paymentForm"><div class="grid">
-<div class="field full"><label>Student *</label><select id="payStudent" required></select></div>
-<div class="field"><label>Academic Session *</label><select id="paySession" required></select></div>
-<div class="field"><label>Amount *</label><input id="payAmount" type="number" min="1" step="0.01" required></div>
-<div class="field"><label>Payment Date</label><input id="payDate" type="date"></div>
-<div class="field"><label>Payment Mode</label><select id="payMode"><option>Cash</option><option>Cheque</option><option>Bank Transfer</option><option>UPI</option><option>Card</option><option>Other</option></select></div>
-<div class="field"><label>Reference No.</label><input id="payRef"></div>
-<div class="field full"><label>Notes</label><textarea id="payNotes" rows="2"></textarea></div>
-</div><div class="actions"><button type="button" id="cancelPayment" class="secondary">Cancel</button><button class="primary">Save & Create Receipt</button></div></form></div></div>
-
-<div id="userModal" class="modal-back"><div class="modal"><h2>Edit ERP User</h2><div id="userError" class="error" style="display:none"></div>
-<form id="userForm"><input type="hidden" id="userId"><div class="grid"><div class="field"><label>Role</label><select id="userRole"><option>Admin</option><option>Administrator</option><option>Accountant</option><option>Cashier</option><option>Staff</option></select></div><div class="field"><label>Active</label><select id="userActive"><option value="true">Active</option><option value="false">Inactive</option></select></div></div><div class="actions"><button type="button" id="cancelUser" class="secondary">Cancel</button><button class="primary">Save</button></div></form></div></div>
-
+<div id="studentModal" class="modal-back"><div class="modal"><h2 id="modalTitle">Add Student</h2><div id="modalError" class="error" style="display:none"></div><form id="studentForm"><input type="hidden" id="studentId"><div class="grid"><div class="field"><label>Admission No. <span class="muted">(unique)</span></label><input id="admissionNo" placeholder="e.g. HIS-0001"></div><div class="field"><label>Admission Date</label><input id="admissionDate" type="date"></div><div class="field"><label>Student Name *</label><input id="name" required></div><div class="field"><label>Father</label><input id="father"></div><div class="field"><label>Mother</label><input id="mother"></div><div class="field"><label>Date of Birth</label><input id="dob" type="date"></div><div class="field"><label>Gender</label><select id="gender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div><div class="field"><label>Current Class</label><select id="currentClass"><option value="">Select class</option></select></div><div class="field"><label>Father Mobile</label><input id="fmobile"></div><div class="field"><label>Mother Mobile</label><input id="mmobile"></div><div class="field"><label>Email</label><input id="email" type="email"></div><div class="field"><label>Category</label><input id="category"></div><div class="field"><label>Blood Group</label><input id="bloodGroup"></div><div class="field"><label>Transport</label><input id="transport"></div><div class="field"><label>Status</label><select id="statusSelect"><option>Active</option><option>Inactive</option></select></div><div class="field full"><label>Address</label><textarea id="address" rows="3"></textarea></div></div><div class="actions"><button type="button" id="cancelStudent" class="secondary">Cancel</button><button type="submit" class="primary">Save Student</button></div></form></div></div>
+<div id="profileModal" class="modal-back"><div class="modal"><h2 id="profileTitle">Student Profile</h2><div id="profileError" class="error" style="display:none"></div><div class="panel"><div class="grid"><div><div class="muted">Admission No.</div><strong id="pAdmissionNo">—</strong></div><div><div class="muted">Student</div><strong id="pName">—</strong></div><div><div class="muted">Father</div><strong id="pFather">—</strong></div><div><div class="muted">Admission Date</div><strong id="pAdmissionDate">—</strong></div></div></div><h3>Academic Session History</h3><div class="table-wrap"><table><thead><tr><th>Session</th><th>Class</th><th>Section</th><th>Roll No.</th><th>Status</th><th></th></tr></thead><tbody id="sessionRows"></tbody></table></div><div class="actions"><button type="button" id="addSessionBtn" class="primary">+ Add Session</button><button type="button" id="closeProfile" class="secondary">Close</button></div></div></div>
+<div id="sessionModal" class="modal-back"><div class="modal"><h2>Academic Session</h2><div id="sessionError" class="error" style="display:none"></div><form id="sessionForm"><input type="hidden" id="sessionRecordId"><input type="hidden" id="sessionStudentId"><div class="grid"><div class="field"><label>Academic Session *</label><select id="sessionSelect" required></select></div><div class="field"><label>Class *</label><select id="sessionClassSelect" required></select></div><div class="field"><label>Section</label><select id="sessionSectionSelect"><option value="">Select section</option></select></div><div class="field"><label>Roll No.</label><input id="sessionRollNo"></div><div class="field"><label>Status</label><select id="sessionStatus"><option>Active</option><option>Inactive</option><option>Left</option></select></div></div><div class="actions"><button type="button" id="cancelSession" class="secondary">Cancel</button><button class="primary" type="submit">Save Session</button></div></form></div></div>
+<div id="feeModal" class="modal-back"><div class="modal"><h2 id="feeModalTitle">Add Fee Rule</h2><div id="feeError" class="error" style="display:none"></div><form id="feeForm"><input type="hidden" id="feeId"><div class="grid"><div class="field"><label>Academic Session *</label><select id="feeSession" required></select></div><div class="field"><label>Class</label><select id="feeClass"></select></div><div class="field"><label>Fee Type *</label><input id="feeType" required placeholder="Tuition Fee"></div><div class="field"><label>Amount *</label><input id="feeAmount" type="number" min="0" step="0.01" required></div><div class="field"><label>Frequency</label><select id="feeFrequency"><option>Annual</option><option>Monthly</option><option>Quarterly</option><option>One-time</option></select></div></div><div class="actions"><button type="button" id="cancelFee" class="secondary">Cancel</button><button class="primary">Save</button></div></form></div></div>
+<div id="paymentModal" class="modal-back"><div class="modal"><h2>Collect Fee</h2><div id="paymentError" class="error" style="display:none"></div><form id="paymentForm"><div class="grid"><div class="field full"><label>Student *</label><select id="payStudent" required></select></div><div class="field"><label>Academic Session *</label><select id="paySession" required></select></div><div class="field"><label>Amount *</label><input id="payAmount" type="number" min="1" step="0.01" required></div><div class="field"><label>Payment Date</label><input id="payDate" type="date"></div><div class="field"><label>Payment Mode</label><select id="payMode"><option>Cash</option><option>Cheque</option><option>Bank Transfer</option><option>UPI</option><option>Card</option><option>Other</option></select></div><div class="field"><label>Reference No.</label><input id="payRef"></div><div class="field full"><label>Notes</label><textarea id="payNotes" rows="2"></textarea></div></div><div class="actions"><button type="button" id="cancelPayment" class="secondary">Cancel</button><button class="primary">Save & Create Receipt</button></div></form></div></div>
+<div id="userModal" class="modal-back"><div class="modal"><h2>Edit ERP User</h2><div id="userError" class="error" style="display:none"></div><form id="userForm"><input type="hidden" id="userId"><div class="grid"><div class="field"><label>Role</label><select id="userRole"><option>Admin</option><option>Administrator</option><option>Accountant</option><option>Cashier</option><option>Staff</option></select></div><div class="field"><label>Active</label><select id="userActive"><option value="true">Active</option><option value="false">Inactive</option></select></div></div><div class="actions"><button type="button" id="cancelUser" class="secondary">Cancel</button><button class="primary">Save</button></div></form></div></div>
 <div id="status">Database: checking…</div>
-
 <script>
-(function(){
-'use strict';
-const SUPABASE_URL='https://cfgbxuluyluycjcqfhsw.supabase.co';
-const SUPABASE_KEY='sb_publishable_woPwqL1VighIS-JGWdGMmA_2ShE_CoK';
-const REDIRECT_URL='https://hiserp-26.github.io/HIS-ERP-System/';
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
-let profile=null, currentUser=null, schoolId=null, students=[], classes=[], sessions=[], academicSessions=[];
-
-function money(v){return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(v||0))}
-function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function showError(el,msg){el.textContent=msg;el.style.display='block'}
-function clearError(el){el.textContent='';el.style.display='none'}
-
-async function signIn(){
- $('loginBtn').disabled=true; clearError($('loginError'));
- try{
-  const r=await db.auth.signInWithOAuth({provider:'azure',options:{redirectTo:REDIRECT_URL,scopes:'email'}});
-  if(r.error) throw r.error;
- }catch(e){showError($('loginError'),e.message||String(e));$('loginBtn').disabled=false}
-}
-
-async function loadProfile(){
- const s=await db.auth.getSession(); if(s.error) throw s.error;
- currentUser=s.data.session?.user||null;
- if(!currentUser){$('login').style.display='flex';$('app').style.display='none';return false}
- const r=await db.from('user_profiles').select('full_name,role,is_active').eq('id',currentUser.id).maybeSingle();
- if(r.error) throw r.error;
- if(!r.data) throw new Error('Microsoft sign-in succeeded, but this account is not provisioned in Hridhaan ERP.');
- if(r.data.is_active===false) throw new Error('Your Hridhaan ERP account is inactive.');
- profile=r.data; schoolId=r.data.school_id||null;
- return true;
-}
-
-async function loadDashboard(){
- const [s,d,p]=await Promise.all([
-  db.from('students').select('id',{count:'exact',head:true}),
-  db.from('fee_demands').select('amount'),
-  db.from('fee_payments').select('amount')
- ]);
- if(s.error) throw s.error;if(d.error) throw d.error;if(p.error) throw p.error;
- const demand=(d.data||[]).reduce((a,r)=>a+Number(r.amount||0),0);
- const paid=(p.data||[]).reduce((a,r)=>a+Number(r.amount||0),0);
- $('studentCount').textContent=s.count??0;$('demandTotal').textContent=money(demand);$('paidTotal').textContent=money(paid);$('outstandingTotal').textContent=money(demand-paid);
- $('userInfo').textContent=(profile.full_name||currentUser.email)+' • '+profile.role;
- $('status').innerHTML='Database: Supabase • '+escapeHtml(profile.role)+' <button id="signout" style="border:0;background:none;color:#2563eb">Sign out</button>';
- $('signout').onclick=async()=>{await db.auth.signOut();location.href=REDIRECT_URL};
-}
-
-async function loadClasses(){
- const r=await db.from('classes').select('id,name,sort_order').order('sort_order',{ascending:true});
- if(r.error) throw r.error;classes=r.data||[];
- $('currentClass').innerHTML='<option value="">Select class</option>'+classes.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('');
-}
-
-async function loadStudents(){
- const r=await db.from('students').select('id,school_id,admission_no,name,father,mother,dob,gender,address,fmobile,mmobile,email,category,blood_group,transport,admission_date,current_class,status').order('name',{ascending:true});
- if(r.error) throw r.error;students=r.data||[];renderStudents();
-}
-
-function renderStudents(){
- const q=$('studentSearch').value.trim().toLowerCase(), st=$('studentStatus').value;
- const rows=students.filter(s=>(!st||s.status===st)&&(!q||[s.admission_no,s.name,s.father,s.current_class].some(v=>String(v||'').toLowerCase().includes(q))));
- if(!rows.length){$('studentRows').innerHTML='<tr><td colspan="7" class="empty">No students found.</td></tr>';return}
- $('studentRows').innerHTML=rows.map(s=>'<tr>'+
- '<td><strong>'+escapeHtml(s.admission_no||'—')+'</strong></td>'+
- '<td>'+escapeHtml(s.name)+'</td><td>'+escapeHtml(s.father||'—')+'</td>'+
- '<td>'+escapeHtml(s.current_class||'—')+'</td><td>'+escapeHtml(s.admission_date||'—')+'</td>'+
- '<td><span class="badge">'+escapeHtml(s.status)+'</span></td>'+
- '<td><button class="secondary profileStudent" data-id="'+s.id+'">Profile</button> <button class="secondary editStudent" data-id="'+s.id+'">Edit</button></td></tr>').join('');
- document.querySelectorAll('.editStudent').forEach(b=>b.onclick=()=>openStudent(b.dataset.id));
- document.querySelectorAll('.profileStudent').forEach(b=>b.onclick=()=>openProfile(b.dataset.id));
-}
-
-
-async function openProfile(studentId){
-  clearError($('profileError'));
-  const s=students.find(x=>x.id===studentId); if(!s)return;
-  $('profileModal').dataset.studentId=studentId;
-  $('profileTitle').textContent='Student Profile — '+(s.name||'');
-  $('pAdmissionNo').textContent=s.admission_no||'—';$('pName').textContent=s.name||'—';
-  $('pFather').textContent=s.father||'—';$('pAdmissionDate').textContent=s.admission_date||'—';
-  $('profileModal').style.display='flex'; await loadSessions(studentId);
-}
-async function loadSessions(studentId){
-  const r=await db.from('student_sessions').select('id,academic_session_id,class_id,section_id,status,roll_no,academic_sessions(name),classes(name),sections(name)').eq('student_id',studentId);
-  if(r.error){showError($('profileError'),r.error.message);return}
-  sessions=r.data||[];
-  $('sessionRows').innerHTML=sessions.length?sessions.map(x=>'<tr><td>'+escapeHtml(x.academic_sessions?.name||'—')+'</td><td>'+escapeHtml(x.classes?.name||'—')+'</td><td>'+escapeHtml(x.sections?.name||'—')+'</td><td>'+escapeHtml(x.roll_no||'—')+'</td><td><span class="badge">'+escapeHtml(x.status||'—')+'</span></td><td><button class="secondary editSession" data-id="'+x.id+'">Edit</button></td></tr>').join(''):'<tr><td colspan="6" class="empty">No academic session linked yet.</td></tr>';
-  document.querySelectorAll('.editSession').forEach(b=>b.onclick=()=>openSessionForm(studentId,b.dataset.id));
-}
-async function loadSessionOptions(){
-  const a=await db.from('academic_sessions').select('id,name,start_date,end_date,is_current').order('start_date',{ascending:false});
-  if(a.error)throw a.error; academicSessions=a.data||[];
-  $('sessionSelect').innerHTML='<option value="">Select session</option>'+(academicSessions||[]).map(x=>'<option value="'+x.id+'">'+escapeHtml(x.name)+(x.is_current?' (Current)':'')+'</option>').join('');
-  $('sessionClassSelect').innerHTML='<option value="">Select class</option>'+classes.map(x=>'<option value="'+x.id+'">'+escapeHtml(x.name)+'</option>').join('');
-}
-async function loadSections(classId,selectedId){
-  $('sessionSectionSelect').innerHTML='<option value="">Select section</option>'; if(!classId)return;
-  const r=await db.from('sections').select('id,name').eq('class_id',classId).order('name');
-  if(r.error){showError($('sessionError'),r.error.message);return}
-  $('sessionSectionSelect').innerHTML='<option value="">Select section</option>'+(r.data||[]).map(x=>'<option value="'+x.id+'">'+escapeHtml(x.name)+'</option>').join('');
-  if(selectedId)$('sessionSectionSelect').value=selectedId;
-}
-async function openSessionForm(studentId,recordId){
-  clearError($('sessionError')); await loadSessionOptions();
-  $('sessionStudentId').value=studentId;$('sessionRecordId').value=recordId||'';
-  $('sessionRollNo').value='';$('sessionStatus').value='Active';$('sessionSectionSelect').value='';
-  if(recordId){const x=sessions.find(v=>v.id===recordId);if(x){$('sessionSelect').value=x.academic_session_id;$('sessionClassSelect').value=x.class_id;$('sessionRollNo').value=x.roll_no||'';$('sessionStatus').value=x.status||'Active';await loadSections(x.class_id,x.section_id)}}
-  $('sessionModal').style.display='flex';
-}
-async function saveSession(e){
-  e.preventDefault();clearError($('sessionError'));
-  if(profile.role!=='Admin'&&profile.role!=='Administrator'){showError($('sessionError'),'Only an Administrator can manage academic sessions.');return}
-  const id=$('sessionRecordId').value;
-  const payload={student_id:$('sessionStudentId').value,academic_session_id:$('sessionSelect').value,class_id:$('sessionClassSelect').value,section_id:$('sessionSectionSelect').value||null,roll_no:$('sessionRollNo').value.trim()||null,status:$('sessionStatus').value};
-  if(!payload.academic_session_id||!payload.class_id){showError($('sessionError'),'Academic Session and Class are required.');return}
-  const r=id?await db.from('student_sessions').update(payload).eq('id',id):await db.from('student_sessions').insert(payload);
-  if(r.error){showError($('sessionError'),r.error.code==='23505'?'This student is already linked to that academic session.':r.error.message);return}
-  $('sessionModal').style.display='none';await loadSessions(payload.student_id);
-}
-function openStudent(id){
- clearError($('modalError'));$('studentModal').style.display='flex';
- $('modalTitle').textContent=id?'Edit Student':'Add Student';$('studentId').value=id||'';
- const s=students.find(x=>x.id===id);
- const vals=s||{};
- $('admissionNo').value=vals.admission_no||'';$('admissionDate').value=vals.admission_date||'';
- $('name').value=vals.name||'';$('father').value=vals.father||'';$('mother').value=vals.mother||'';
- $('dob').value=vals.dob||'';$('gender').value=vals.gender||'';$('currentClass').value=vals.current_class||'';
- $('fmobile').value=vals.fmobile||'';$('mmobile').value=vals.mmobile||'';$('email').value=vals.email||'';
- $('category').value=vals.category||'';$('bloodGroup').value=vals.blood_group||'';$('transport').value=vals.transport||'';
- $('statusSelect').value=vals.status||'Active';$('address').value=vals.address||'';
-}
-
+(function(){'use strict';
+const SUPABASE_URL='https://cfgbxuluyluycjcqfhsw.supabase.co',SUPABASE_KEY='sb_publishable_woPwqL1VighIS-JGWdGMmA_2ShE_CoK',REDIRECT_URL='https://hiserp-26.github.io/HIS-ERP-System/';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);const $=id=>document.getElementById(id);let profile=null,currentUser=null,schoolId=null,students=[],classes=[],sessions=[],academicSessions=[];
+function money(v){return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(v||0))}function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}function showError(el,msg){el.textContent=msg;el.style.display='block'}function clearError(el){el.textContent='';el.style.display='none'}
+async function signIn(){$('loginBtn').disabled=true;clearError($('loginError'));try{const r=await db.auth.signInWithOAuth({provider:'azure',options:{redirectTo:REDIRECT_URL,scopes:'email'}});if(r.error)throw r.error}catch(e){showError($('loginError'),e.message||String(e));$('loginBtn').disabled=false}}
+async function loadProfile(){const s=await db.auth.getSession();if(s.error)throw s.error;currentUser=s.data.session?.user||null;if(!currentUser){$('login').style.display='flex';$('app').style.display='none';return false}const r=await db.from('user_profiles').select('full_name,role,is_active,school_id').eq('id',currentUser.id).maybeSingle();if(r.error)throw r.error;if(!r.data)throw new Error('Microsoft sign-in succeeded, but this account is not provisioned in Hridhaan ERP.');if(r.data.is_active===false)throw new Error('Your Hridhaan ERP account is inactive.');profile=r.data;schoolId=r.data.school_id||null;return true}
+async function loadDashboard(){const [s,d,p]=await Promise.all([db.from('students').select('id',{count:'exact',head:true}),db.from('fee_demands').select('amount'),db.from('fee_payments').select('amount')]);if(s.error)throw s.error;if(d.error)throw d.error;if(p.error)throw p.error;const demand=(d.data||[]).reduce((a,r)=>a+Number(r.amount||0),0),paid=(p.data||[]).reduce((a,r)=>a+Number(r.amount||0),0);$('studentCount').textContent=s.count??0;$('demandTotal').textContent=money(demand);$('paidTotal').textContent=money(paid);$('outstandingTotal').textContent=money(demand-paid);$('userInfo').textContent=(profile.full_name||currentUser.email)+' • '+profile.role;$('status').innerHTML='Database: Supabase • '+escapeHtml(profile.role)+' <button id="signout" style="border:0;background:none;color:#2563eb">Sign out</button>';$('signout').onclick=async()=>{await db.auth.signOut();location.href=REDIRECT_URL}}
+async function loadClasses(){const r=await db.from('classes').select('id,name,sort_order').order('sort_order',{ascending:true});if(r.error)throw r.error;classes=r.data||[];$('currentClass').innerHTML='<option value="">Select class</option>'+classes.map(c=>'<option value="'+escapeHtml(c.name)+'">'+escapeHtml(c.name)+'</option>').join('')}
+async function loadStudents(){const r=await db.from('students').select('id,school_id,admission_no,name,father,mother,dob,gender,address,fmobile,mmobile,email,category,blood_group,transport,admission_date,current_class,status').order('name',{ascending:true});if(r.error)throw r.error;students=r.data||[];renderStudents()}
+function renderStudents(){const q=$('studentSearch').value.trim().toLowerCase(),st=$('studentStatus').value,rows=students.filter(s=>(!st||s.status===st)&&(!q||[s.admission_no,s.name,s.father,s.current_class].some(v=>String(v||'').toLowerCase().includes(q))));if(!rows.length){$('studentRows').innerHTML='<tr><td colspan="7" class="empty">No students found.</td></tr>';return}$('studentRows').innerHTML=rows.map(s=>'<tr><td><strong>'+escapeHtml(s.admission_no||'—')+'</strong></td><td>'+escapeHtml(s.name)+'</td><td>'+escapeHtml(s.father||'—')+'</td><td>'+escapeHtml(s.current_class||'—')+'</td><td>'+escapeHtml(s.admission_date||'—')+'</td><td><span class="badge">'+escapeHtml(s.status)+'</span></td><td><button class="secondary profileStudent" data-id="'+s.id+'">Profile</button> <button class="secondary editStudent" data-id="'+s.id+'">Edit</button></td></tr>').join('');document.querySelectorAll('.editStudent').forEach(b=>b.onclick=()=>openStudent(b.dataset.id));document.querySelectorAll('.profileStudent').forEach(b=>b.onclick=()=>openProfile(b.dataset.id))}
+async function openProfile(studentId){clearError($('profileError'));const s=students.find(x=>x.id===studentId);if(!s)return;$('profileModal').dataset.studentId=studentId;$('profileTitle').textContent='Student Profile — '+(s.name||'');$('pAdmissionNo').textContent=s.admission_no||'—';$('pName').textContent=s.name||'—';$('pFather').textContent=s.father||'—';$('pAdmissionDate').textContent=s.admission_date||'—';$('profileModal').style.display='flex';await loadSessions(studentId)}
+async function loadSessions(studentId){const r=await db.from('student_sessions').select('id,academic_session_id,class_id,section_id,status,roll_no,academic_sessions(name),classes(name),sections(name)').eq('student_id',studentId);if(r.error){showError($('profileError'),r.error.message);return}sessions=r.data||[];$('sessionRows').innerHTML=sessions.length?sessions.map(x=>'<tr><td>'+escapeHtml(x.academic_sessions?.name||'—')+'</td><td>'+escapeHtml(x.classes?.name||'—')+'</td><td>'+escapeHtml(x.sections?.name||'—')+'</td><td>'+escapeHtml(x.roll_no||'—')+'</td><td><span class="badge">'+escapeHtml(x.status||'—')+'</span></td><td><button class="secondary editSession" data-id="'+x.id+'">Edit</button></td></tr>').join(''):'<tr><td colspan="6" class="empty">No academic session linked yet.</td></tr>';document.querySelectorAll('.editSession').forEach(b=>b.onclick=()=>openSessionForm(studentId,b.dataset.id))}
+async function loadSessionOptions(){const a=await db.from('academic_sessions').select('id,name,start_date,end_date,is_current').order('start_date',{ascending:false});if(a.error)throw a.error;academicSessions=a.data||[];$('sessionSelect').innerHTML='<option value="">Select session</option>'+academicSessions.map(x=>'<option value="'+x.id+'">'+escapeHtml(x.name)+(x.is_current?' (Current)':'')+'</option>').join('');$('sessionClassSelect').innerHTML='<option value="">Select class</option>'+classes.map(x=>'<option value="'+x.id+'">'+escapeHtml(x.name)+'</option>').join('')}
+async function loadSections(classId,selectedId){$('sessionSectionSelect').innerHTML='<option value="">Select section</option>';if(!classId)return;const r=await db.from('sections').select('id,name').eq('class_id',classId).order('name');if(r.error){showError($('sessionError'),r.error.message);return}$('sessionSectionSelect').innerHTML='<option value="">Select section</option>'+(r.data||[]).map(x=>'<option value="'+x.id+'">'+escapeHtml(x.name)+'</option>').join('');if(selectedId)$('sessionSectionSelect').value=selectedId}
+async function openSessionForm(studentId,recordId){clearError($('sessionError'));await loadSessionOptions();$('sessionStudentId').value=studentId;$('sessionRecordId').value=recordId||'';$('sessionRollNo').value='';$('sessionStatus').value='Active';$('sessionSectionSelect').value='';if(recordId){const x=sessions.find(v=>v.id===recordId);if(x){$('sessionSelect').value=x.academic_session_id;$('sessionClassSelect').value=x.class_id;$('sessionRollNo').value=x.roll_no||'';$('sessionStatus').value=x.status||'Active';await loadSections(x.class_id,x.section_id)}}$('sessionModal').style.display='flex'}
+async function saveSession(e){e.preventDefault();clearError($('sessionError'));if(!adminOnly()){showError($('sessionError'),'Only an Administrator can manage academic sessions.');return}const id=$('sessionRecordId').value,payload={student_id:$('sessionStudentId').value,academic_session_id:$('sessionSelect').value,class_id:$('sessionClassSelect').value,section_id:$('sessionSectionSelect').value||null,roll_no:$('sessionRollNo').value.trim()||null,status:$('sessionStatus').value};if(!payload.academic_session_id||!payload.class_id){showError($('sessionError'),'Academic Session and Class are required.');return}const r=id?await db.from('student_sessions').update(payload).eq('id',id):await db.from('student_sessions').insert(payload);if(r.error){showError($('sessionError'),r.error.code==='23505'?'This student is already linked to that academic session.':r.error.message);return}$('sessionModal').style.display='none';await loadSessions(payload.student_id)}
+function openStudent(id){clearError($('modalError'));$('studentModal').style.display='flex';$('modalTitle').textContent=id?'Edit Student':'Add Student';$('studentId').value=id||'';const s=students.find(x=>x.id===id)||{};$('admissionNo').value=s.admission_no||'';$('admissionDate').value=s.admission_date||'';$('name').value=s.name||'';$('father').value=s.father||'';$('mother').value=s.mother||'';$('dob').value=s.dob||'';$('gender').value=s.gender||'';$('currentClass').value=s.current_class||'';$('fmobile').value=s.fmobile||'';$('mmobile').value=s.mmobile||'';$('email').value=s.email||'';$('category').value=s.category||'';$('bloodGroup').value=s.blood_group||'';$('transport').value=s.transport||'';$('statusSelect').value=s.status||'Active';$('address').value=s.address||''}
 function closeStudent(){$('studentModal').style.display='none'}
-
-async function saveStudent(e){
- e.preventDefault();clearError($('modalError'));
- if(profile.role!=='Admin'&&profile.role!=='Administrator'){showError($('modalError'),'Only an Administrator can add or edit students.');return}
- const id=$('studentId').value;
- const payload={school_id:schoolId,
-  admission_no:$('admissionNo').value.trim()||null,admission_date:$('admissionDate').value||null,
-  name:$('name').value.trim(),father:$('father').value.trim()||null,mother:$('mother').value.trim()||null,
-  dob:$('dob').value||null,gender:$('gender').value||null,current_class:$('currentClass').value||null,
-  fmobile:$('fmobile').value.trim()||null,mmobile:$('mmobile').value.trim()||null,email:$('email').value.trim()||null,
-  category:$('category').value.trim()||null,blood_group:$('bloodGroup').value.trim()||null,transport:$('transport').value.trim()||null,
-  status:$('statusSelect').value,address:$('address').value.trim()||null,updated_at:new Date().toISOString()
- };
- if(!payload.name){showError($('modalError'),'Student Name is required.');return}
- let r;
- if(id) r=await db.from('students').update(payload).eq('id',id);
- else r=await db.from('students').insert(payload);
- if(r.error){
-  if(r.error.code==='23505') showError($('modalError'),'That Admission No. is already assigned to another student.');
-  else showError($('modalError'),r.error.message||'Unable to save student.');
-  return;
- }
- closeStudent();await loadStudents();await loadDashboard();
- $('studentMessage').innerHTML='<div class="notice">Student saved successfully.</div>';
- setTimeout(()=>{$('studentMessage').innerHTML=''},2500);
-}
-
-
-function roleIs(...roles){return roles.includes(profile?.role)}
-function adminOnly(){return roleIs('Admin','Administrator')}
-function canCollect(){return roleIs('Admin','Administrator','Accountant','Cashier')}
-function setOptions(id,items,placeholder,labelFn){
-  $(id).innerHTML='<option value="">'+placeholder+'</option>'+(items||[]).map(x=>'<option value="'+x.id+'">'+escapeHtml(labelFn(x))+'</option>').join('');
-}
-async function loadAcademicSessions(){
-  const r=await db.from('academic_sessions').select('id,name,start_date,end_date,is_current').order('start_date',{ascending:false});
-  if(r.error)throw r.error; academicSessions=r.data||[];
-  ['feeSessionFilter','feeSession','paySession','ledgerSession'].forEach(id=>{if($(id))setOptions(id,academicSessions,'All sessions',x=>x.name+(x.is_current?' (Current)':''))});
-}
-async function loadFeeStructures(){
-  const r=await db.from('fee_structures').select('id,academic_session_id,class_id,fee_type,amount,frequency,academic_sessions(name),classes(name)').order('fee_type');
-  if(r.error)throw r.error;
-  const sf=$('feeSessionFilter').value, cf=$('feeClassFilter').value;
-  const rows=(r.data||[]).filter(x=>(!sf||x.academic_session_id===sf)&&(!cf||x.class_id===cf));
-  $('feeRows').innerHTML=rows.length?rows.map(x=>'<tr><td>'+escapeHtml(x.academic_sessions?.name||'—')+'</td><td>'+escapeHtml(x.classes?.name||'All Classes')+'</td><td>'+escapeHtml(x.fee_type)+'</td><td>'+money(x.amount)+'</td><td>'+escapeHtml(x.frequency)+'</td><td><button class="secondary mini editFee" data-id="'+x.id+'">Edit</button></td></tr>').join(''):'<tr><td colspan="6" class="empty">No fee rules configured.</td></tr>';
-  document.querySelectorAll('.editFee').forEach(b=>b.onclick=()=>openFee(b.dataset.id));
-}
-async function openFee(id){
-  clearError($('feeError')); await loadAcademicSessions();
-  $('feeId').value=id||'';$('feeModalTitle').textContent=id?'Edit Fee Rule':'Add Fee Rule';
-  setOptions('feeSession',academicSessions,'Select session',x=>x.name+(x.is_current?' (Current)':''));
-  setOptions('feeClass',classes,'All Classes',x=>x.name);
-  $('feeSession').value='';$('feeClass').value='';$('feeType').value='';$('feeAmount').value='';$('feeFrequency').value='Annual';
-  if(id){
-    const r=await db.from('fee_structures').select('*').eq('id',id).single();
-    if(r.error){showError($('feeError'),r.error.message);return}
-    const x=r.data;$('feeSession').value=x.academic_session_id;$('feeClass').value=x.class_id||'';$('feeType').value=x.fee_type;$('feeAmount').value=x.amount;$('feeFrequency').value=x.frequency;
-  }
-  $('feeModal').style.display='flex';
-}
-async function saveFee(e){
-  e.preventDefault();clearError($('feeError'));
-  if(!adminOnly()){showError($('feeError'),'Only an Administrator can change fee structure.');return}
-  const id=$('feeId').value,p={school_id:schoolId,academic_session_id:$('feeSession').value,class_id:$('feeClass').value||null,fee_type:$('feeType').value.trim(),amount:Number($('feeAmount').value),frequency:$('feeFrequency').value};
-  if(!p.academic_session_id||!p.fee_type||!(p.amount>=0)){showError($('feeError'),'Session, fee type and a valid amount are required.');return}
-  const r=id?await db.from('fee_structures').update(p).eq('id',id):await db.from('fee_structures').insert(p);
-  if(r.error){showError($('feeError'),r.error.message);return}
-  $('feeModal').style.display='none';await loadFeeStructures();await audit('FEE_STRUCTURE_'+(id?'UPDATED':'CREATED'),'fee_structure',id||null,p);
-}
-async function generateDemandFromRules(sessionId){
-  if(!adminOnly())return;
-  const rules=await db.from('fee_structures').select('id,class_id,fee_type,amount,frequency').eq('academic_session_id',sessionId);
-  if(rules.error)throw rules.error;
-  const ss=await db.from('student_sessions').select('student_id,class_id').eq('academic_session_id',sessionId).eq('status','Active');
-  if(ss.error)throw ss.error;
-  const existing=await db.from('fee_demands').select('student_id,fee_type').eq('academic_session_id',sessionId);
-  if(existing.error)throw existing.error;
-  const have=new Set((existing.data||[]).map(x=>x.student_id+'|'+x.fee_type));
-  const rows=[];
-  for(const rule of (rules.data||[])){
-    for(const s of (ss.data||[])){
-      if(rule.class_id && rule.class_id!==s.class_id)continue;
-      const key=s.student_id+'|'+rule.fee_type;if(have.has(key))continue;
-      rows.push({student_id:s.student_id,academic_session_id:sessionId,fee_type:rule.fee_type,amount:rule.amount});
-    }
-  }
-  if(rows.length){const ins=await db.from('fee_demands').insert(rows);if(ins.error)throw ins.error}
-  return rows.length;
-}
-async function loadLedgerOptions(){
-  setOptions('ledgerStudent',students,'Select student',x=>(x.admission_no?x.admission_no+' • ':'')+x.name);
-  setOptions('ledgerSession',academicSessions,'All sessions',x=>x.name);
-}
-async function loadLedger(){
-  const sid=$('ledgerStudent').value;if(!sid){$('ledgerRows').innerHTML='<tr><td colspan="7" class="empty">Select a student.</td></tr>';$('ledgerSummary').innerHTML='';return}
-  const session=$('ledgerSession').value;
-  const [d,p]=await Promise.all([
-    db.from('fee_demands').select('id,academic_session_id,fee_type,amount,due_date,notes,academic_sessions!fee_demands_academic_session_id_fkey(name)').eq('student_id',sid),
-    db.from('fee_payments').select('id,academic_session_id,amount,payment_date,payment_mode,reference_no,academic_sessions(name)').eq('student_id',sid)
-  ]);
-  if(d.error||p.error){$('ledgerRows').innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml((d.error||p.error).message)+'</td></tr>';return}
-  const events=[];
-  (d.data||[]).filter(x=>!session||x.academic_session_id===session).forEach(x=>events.push({session:x.academic_session_id,sessionName:x.academic_sessions?.name,date:x.due_date,type:'Demand',details:x.fee_type,demand:Number(x.amount),paid:0}));
-  (p.data||[]).filter(x=>!session||x.academic_session_id===session).forEach(x=>events.push({session:x.academic_session_id,sessionName:x.academic_sessions?.name,date:x.payment_date,type:'Payment',details:x.payment_mode+(x.reference_no?' • '+x.reference_no:''),demand:0,paid:Number(x.amount)}));
-  events.sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
-  let run=0,totalD=0,totalP=0;
-  $('ledgerRows').innerHTML=events.length?events.map(x=>{totalD+=x.demand;totalP+=x.paid;run+=x.demand-x.paid;return '<tr><td>'+escapeHtml(x.sessionName||'—')+'</td><td>'+escapeHtml(x.date||'—')+'</td><td>'+x.type+'</td><td>'+escapeHtml(x.details)+'</td><td>'+money(x.demand)+'</td><td>'+money(x.paid)+'</td><td>'+money(run)+'</td></tr>'}).join(''):'<tr><td colspan="7" class="empty">No ledger entries.</td></tr>';
-  $('ledgerSummary').innerHTML='<div class="panel"><div class="label">Total Demand</div><div class="value">'+money(totalD)+'</div></div><div class="panel"><div class="label">Total Paid</div><div class="value">'+money(totalP)+'</div></div><div class="panel"><div class="label">Outstanding</div><div class="value">'+money(totalD-totalP)+'</div></div>';
-}
-async function openPayment(){
-  if(!canCollect()){alert('You do not have permission to collect fees.');return}
-  setOptions('payStudent',students,'Select student',x=>(x.admission_no?x.admission_no+' • ':'')+x.name);
-  setOptions('paySession',academicSessions,'Select session',x=>x.name+(x.is_current?' (Current)':''));
-  $('payDate').value=new Date().toISOString().slice(0,10);$('payAmount').value='';$('payRef').value='';$('payNotes').value='';
-  $('paymentModal').style.display='flex';
-}
-async function savePayment(e){
-  e.preventDefault();clearError($('paymentError'));
-  if(!canCollect()){showError($('paymentError'),'You do not have permission to collect fees.');return}
-  const amount=Number($('payAmount').value);if(!amount||amount<=0){showError($('paymentError'),'Enter a valid payment amount.');return}
-  const p={student_id:$('payStudent').value,academic_session_id:$('paySession').value,amount,payment_date:$('payDate').value||null,payment_mode:$('payMode').value,reference_no:$('payRef').value.trim()||null,notes:$('payNotes').value.trim()||null};
-  if(!p.student_id||!p.academic_session_id){showError($('paymentError'),'Student and academic session are required.');return}
-  const ins=await db.from('fee_payments').insert(p).select('id').single();
-  if(ins.error){showError($('paymentError'),ins.error.message);return}
-  const receiptNo='REC-'+new Date().toISOString().slice(0,10).replaceAll('-','')+'-'+Math.random().toString(36).slice(2,7).toUpperCase();
-  const rr=await db.from('receipts').insert({payment_id:ins.data.id,receipt_no:receiptNo}).select('id').single();
-  if(rr.error){showError($('paymentError'),'Payment saved, but receipt creation failed: '+rr.error.message);return}
-  $('paymentModal').style.display='none';$('cashierMessage').innerHTML='<div class="notice">Payment recorded. Receipt <strong>'+receiptNo+'</strong> created.</div>';
-  await loadDashboard();await loadPayments();await audit('PAYMENT_CREATED','fee_payment',ins.data.id,{amount,receipt_no:receiptNo});
-}
-async function loadPayments(){
-  const q=($('paymentSearch').value||'').toLowerCase();
-  const r=await db.from('fee_payments').select('id,student_id,academic_session_id,amount,payment_date,payment_mode,reference_no,students(name,admission_no),academic_sessions(name),receipts(receipt_no)').order('payment_date',{ascending:false});
-  if(r.error){$('paymentRows').innerHTML='<tr><td colspan="8" class="empty">'+escapeHtml(r.error.message)+'</td></tr>';return}
-  const rows=(r.data||[]).filter(x=>!q||[x.students?.name,x.students?.admission_no,x.receipts?.receipt_no,x.reference_no].some(v=>String(v||'').toLowerCase().includes(q)));
-  $('paymentRows').innerHTML=rows.length?rows.map(x=>'<tr><td>'+escapeHtml(x.payment_date||'—')+'</td><td><strong>'+escapeHtml(x.receipts?.receipt_no||'—')+'</strong></td><td>'+escapeHtml(x.students?.name||'—')+'</td><td>'+escapeHtml(x.academic_sessions?.name||'—')+'</td><td>'+escapeHtml(x.payment_mode)+'</td><td>'+money(x.amount)+'</td><td>'+escapeHtml(x.reference_no||'—')+'</td><td><button class="secondary mini" onclick="window.print()">Print</button></td></tr>').join(''):'<tr><td colspan="8" class="empty">No payments found.</td></tr>';
-}
-async function loadUsers(){
-  if(!adminOnly()){$('userRows').innerHTML='<tr><td colspan="5" class="empty">Administrator access required.</td></tr>';return}
-  const r=await db.from('user_profiles').select('id,full_name,role,is_active').order('full_name');
-  if(r.error){$('userRows').innerHTML='<tr><td colspan="5" class="empty">'+escapeHtml(r.error.message)+'</td></tr>';return}
-  $('userRows').innerHTML=(r.data||[]).map(x=>'<tr><td>'+escapeHtml(x.full_name||'—')+'</td><td><small>'+escapeHtml(x.id)+'</small></td><td>'+escapeHtml(x.role)+'</td><td>'+ (x.is_active?'Active':'Inactive')+'</td><td><button class="secondary mini editUser" data-id="'+x.id+'">Edit</button></td></tr>').join('');
-  window.erpUsers=r.data||[];document.querySelectorAll('.editUser').forEach(b=>b.onclick=()=>openUser(b.dataset.id));
-}
-function openUser(id){const x=(window.erpUsers||[]).find(v=>v.id===id);if(!x)return;$('userId').value=id;$('userRole').value=x.role;$('userActive').value=String(x.is_active);$('userModal').style.display='flex'}
-async function saveUser(e){e.preventDefault();clearError($('userError'));if(!adminOnly()){showError($('userError'),'Administrator access required.');return}const id=$('userId').value;const r=await db.from('user_profiles').update({role:$('userRole').value,is_active:$('userActive').value==='true'}).eq('id',id);if(r.error){showError($('userError'),r.error.message);return}$('userModal').style.display='none';await loadUsers();await audit('USER_PROFILE_UPDATED','user_profile',id,{role:$('userRole').value,is_active:$('userActive').value==='true'});if(id===currentUser?.id){await loadProfile();}}
-async function loadAudit(){
-  if(!adminOnly()){$('auditRows').innerHTML='<tr><td colspan="5" class="empty">Administrator access required.</td></tr>';return}
-  const r=await db.from('audit_logs').select('id,action,entity_type,entity_id,user_id,details,created_at').order('created_at',{ascending:false}).limit(200);
-  if(r.error){$('auditRows').innerHTML='<tr><td colspan="5" class="empty">'+escapeHtml(r.error.message)+'</td></tr>';return}
-  $('auditRows').innerHTML=(r.data||[]).map(x=>'<tr><td>'+escapeHtml(new Date(x.created_at).toLocaleString())+'</td><td>'+escapeHtml(x.action)+'</td><td>'+escapeHtml((x.entity_type||'')+(x.entity_id?' • '+x.entity_id:''))+'</td><td>'+escapeHtml(x.user_id||'—')+'</td><td><small>'+escapeHtml(JSON.stringify(x.details||{}))+'</small></td></tr>').join('')||'<tr><td colspan="5" class="empty">No audit records.</td></tr>';
-}
-async function audit(action,entityType,entityId,details){
-  try{await db.from('audit_logs').insert({school_id:schoolId,user_id:currentUser?.id||null,action,entity_type:entityType,entity_id:entityId,details:details||{}})}catch(_){}
-}
-async function refreshModule(page){
-  if(page==='fees'){await loadAcademicSessions();setOptions('feeClassFilter',classes,'All Classes',x=>x.name);await loadFeeStructures()}
-  if(page==='ledger'){await loadAcademicSessions();await loadLedgerOptions();await loadLedger()}
-  if(page==='payments')await loadPayments();
-  if(page==='users')await loadUsers();
-  if(page==='audit')await loadAudit();
-}
-
-async function boot(){
- try{
-  if(!await loadProfile())return;
-  $('login').style.display='none';$('app').style.display='block';
-  await Promise.all([loadDashboard(),loadClasses(),loadStudents(),loadAcademicSessions()]);
-  $('status').textContent='Database: connected';
- }catch(e){
-  $('login').style.display='flex';$('app').style.display='none';showError($('loginError'),e.message||String(e));$('status').textContent='Database: error';
- }
-}
-
-$('loginBtn').onclick=signIn;
-$('addStudentBtn').onclick=()=>openStudent('');
-$('cancelStudent').onclick=closeStudent;
-$('studentForm').onsubmit=saveStudent;
-$('studentSearch').oninput=renderStudents;
-$('studentStatus').onchange=renderStudents;
-document.querySelectorAll('nav button[data-page]').forEach(b=>b.onclick=async()=>{
- document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
- document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$('page-'+b.dataset.page).classList.add('active');
- try{await refreshModule(b.dataset.page)}catch(e){console.error(e)}
-});
-
-$('closeProfile').onclick=()=>{$('profileModal').style.display='none'};
-$('addSessionBtn').onclick=async()=>{const id=$('profileModal').dataset.studentId;if(id)await openSessionForm(id,'')};
-$('cancelSession').onclick=()=>{$('sessionModal').style.display='none'};
-$('sessionClassSelect').onchange=()=>loadSections($('sessionClassSelect').value,'');
-$('sessionForm').onsubmit=saveSession;
-
-
-$('addFeeBtn').onclick=()=>openFee('');
-$('cancelFee').onclick=()=>{$('feeModal').style.display='none'};
-$('feeForm').onsubmit=saveFee;
-$('feeSessionFilter').onchange=loadFeeStructures;$('feeClassFilter').onchange=loadFeeStructures;
-$('ledgerStudent').onchange=loadLedger;$('ledgerSession').onchange=loadLedger;
-$('newPaymentBtn').onclick=openPayment;$('cancelPayment').onclick=()=>{$('paymentModal').style.display='none'};$('paymentForm').onsubmit=savePayment;
-$('paymentSearch').oninput=loadPayments;$('paymentRefresh').onclick=loadPayments;
-$('cancelUser').onclick=()=>{$('userModal').style.display='none'};$('userForm').onsubmit=saveUser;
-$('auditRefresh').onclick=loadAudit;
-
-$('generateDemandBtn').onclick=async()=>{
- if(!adminOnly()){alert('Administrator access required.');return}
- const sid=$('feeSessionFilter').value;if(!sid){alert('Select an academic session first.');return}
- try{const n=await generateDemandFromRules(sid);$('feeMessage').innerHTML='<div class="notice">'+n+' new demand record(s) generated.</div>';await loadDashboard()}catch(e){$('feeMessage').innerHTML='<div class="error">'+escapeHtml(e.message)+'</div>'}
-};
-
-
-db.auth.onAuthStateChange(()=>setTimeout(boot,0));
-boot();
+async function saveStudent(e){e.preventDefault();clearError($('modalError'));if(!adminOnly()){showError($('modalError'),'Only an Administrator can add or edit students.');return}const id=$('studentId').value,payload={school_id:schoolId,admission_no:$('admissionNo').value.trim()||null,admission_date:$('admissionDate').value||null,name:$('name').value.trim(),father:$('father').value.trim()||null,mother:$('mother').value.trim()||null,dob:$('dob').value||null,gender:$('gender').value||null,current_class:$('currentClass').value||null,fmobile:$('fmobile').value.trim()||null,mmobile:$('mmobile').value.trim()||null,email:$('email').value.trim()||null,category:$('category').value.trim()||null,blood_group:$('bloodGroup').value.trim()||null,transport:$('transport').value.trim()||null,status:$('statusSelect').value,address:$('address').value.trim()||null,updated_at:new Date().toISOString()};if(!payload.name){showError($('modalError'),'Student Name is required.');return}const r=id?await db.from('students').update(payload).eq('id',id):await db.from('students').insert(payload);if(r.error){showError($('modalError'),r.error.code==='23505'?'That Admission No. is already assigned to another student.':r.error.message);return}closeStudent();await loadStudents();await loadDashboard();$('studentMessage').innerHTML='<div class="notice">Student saved successfully.</div>';setTimeout(()=>$('studentMessage').innerHTML='',2500)}
+function roleIs(...roles){return roles.includes(profile?.role)}function adminOnly(){return roleIs('Admin','Administrator')}function canCollect(){return roleIs('Admin','Administrator','Accountant','Cashier')}function setOptions(id,items,placeholder,labelFn){$(id).innerHTML='<option value="">'+placeholder+'</option>'+(items||[]).map(x=>'<option value="'+x.id+'">'+escapeHtml(labelFn(x))+'</option>').join('')}
+async function loadAcademicSessions(){const r=await db.from('academic_sessions').select('id,name,start_date,end_date,is_current').order('start_date',{ascending:false});if(r.error)throw r.error;academicSessions=r.data||[];['feeSessionFilter','feeSession','paySession','ledgerSession','dashSession'].forEach(id=>{if($(id))setOptions(id,academicSessions,'All sessions',x=>x.name+(x.is_current?' (Current)':''))})}
+function monthOptions(){const opts=['All Months'];for(let m=0;m<12;m++)opts.push(new Date(2000,m,1).toLocaleString('en-IN',{month:'long'}));$('dashMonth').innerHTML=opts.map(x=>'<option value="'+(x==='All Months'?'':x)+'">'+x+'</option>').join('')}
+async function loadDashboardReports(){await loadAcademicSessions();const sid=$('dashSession').value,month=$('dashMonth').value;let demandQ=db.from('fee_demands').select('id,student_id,academic_session_id,fee_type,amount,due_date');let payQ=db.from('fee_payments').select('id,student_id,academic_session_id,amount,payment_date');if(sid){demandQ=demandQ.eq('academic_session_id',sid);payQ=payQ.eq('academic_session_id',sid)}const [d,p,ss]=await Promise.all([demandQ,payQ,db.from('student_sessions').select('student_id,class_id,academic_session_id,status,classes(name)').eq('status','Active')]);if(d.error||p.error||ss.error)throw(d.error||p.error||ss.error);const monthNum=month?new Date(Date.parse(month+' 1, 2000')).getMonth()+1:null,demands=(d.data||[]).filter(x=>!monthNum||(!x.due_date||new Date(x.due_date).getMonth()+1===monthNum)),payments=p.data||[],payByStudent=new Map();payments.forEach(x=>payByStudent.set(x.student_id,(payByStudent.get(x.student_id)||0)+Number(x.amount||0)));const classByStudent=new Map();(ss.data||[]).filter(x=>!sid||x.academic_session_id===sid).forEach(x=>classByStudent.set(x.student_id,x.classes?.name||'Unassigned'));const classMap=new Map(),feeMap=new Map();demands.forEach(x=>{const cls=classByStudent.get(x.student_id)||'Unassigned';if(!classMap.has(cls))classMap.set(cls,{students:new Set(),demand:0,paid:0,due:0,overdue:0});const c=classMap.get(cls);c.students.add(x.student_id);c.demand+=Number(x.amount||0);const due=x.due_date?new Date(x.due_date):null,now=new Date();if(due){if(due<=now)c.due+=Number(x.amount||0);if(due<now)c.overdue+=Number(x.amount||0)}const f=x.fee_type||'Other Fee';if(!feeMap.has(f))feeMap.set(f,{demand:0,paid:0});feeMap.get(f).demand+=Number(x.amount||0)});const demandByStudent=new Map();demands.forEach(x=>demandByStudent.set(x.student_id,(demandByStudent.get(x.student_id)||0)+Number(x.amount||0)));for(const [student,paid] of payByStudent){const alloc=Math.min(paid,demandByStudent.get(student)||0),cls=classByStudent.get(student)||'Unassigned';if(!classMap.has(cls))classMap.set(cls,{students:new Set([student]),demand:0,paid:0,due:0,overdue:0});classMap.get(cls).paid+=alloc}$('studentCount').textContent=classMap.size?new Set([...classMap.values()].flatMap(x=>[...x.students])).size:0;const totalD=demands.reduce((a,x)=>a+Number(x.amount||0),0),totalP=payments.reduce((a,x)=>a+Number(x.amount||0),0),due=demands.filter(x=>x.due_date&&new Date(x.due_date)<=new Date()).reduce((a,x)=>a+Number(x.amount||0),0),overdue=demands.filter(x=>x.due_date&&new Date(x.due_date)<new Date()).reduce((a,x)=>a+Number(x.amount||0),0);$('demandTotal').textContent=money(totalD);$('paidTotal').textContent=money(totalP);$('outstandingTotal').textContent=money(totalD-totalP);$('dueTotal').textContent=money(due);$('overdueTotal').textContent=money(overdue);$('dashClassRows').innerHTML=[...classMap.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([k,x])=>'<tr><td>'+escapeHtml(k)+'</td><td>'+x.students.size+'</td><td>'+money(x.demand)+'</td><td>'+money(x.paid)+'</td><td>'+money(x.demand-x.paid)+'</td><td>'+money(x.due)+'</td><td>'+money(x.overdue)+'</td></tr>').join('')||'<tr><td colspan="7" class="empty">No demand data for this selection.</td></tr>';const stuFee=new Map();demands.forEach(x=>{if(!stuFee.has(x.student_id))stuFee.set(x.student_id,[]);stuFee.get(x.student_id).push(x)});for(const [student,items] of stuFee){let rem=payByStudent.get(student)||0;for(const x of items){const a=Math.min(rem,Number(x.amount||0));const f=x.fee_type||'Other Fee';feeMap.get(f).paid=(feeMap.get(f)?.paid||0)+a;rem-=a;if(rem<=0)break}}$('dashFeeRows').innerHTML=[...feeMap.entries()].map(([k,x])=>'<tr><td>'+escapeHtml(k)+'</td><td>'+money(x.demand)+'</td><td>'+money(x.paid)+'</td><td>'+money(x.demand-x.paid)+'</td></tr>').join('')||'<tr><td colspan="4" class="empty">No fee-head data.</td></tr>'}
+async function loadFeeStructures(){const r=await db.from('fee_structures').select('id,academic_session_id,class_id,fee_type,amount,frequency,academic_sessions(name),classes(name)').order('fee_type');if(r.error)throw r.error;const sf=$('feeSessionFilter').value,cf=$('feeClassFilter').value,rows=(r.data||[]).filter(x=>(!sf||x.academic_session_id===sf)&&(!cf||x.class_id===cf));$('feeRows').innerHTML=rows.length?rows.map(x=>'<tr><td>'+escapeHtml(x.academic_sessions?.name||'—')+'</td><td>'+escapeHtml(x.classes?.name||'All Classes')+'</td><td>'+escapeHtml(x.fee_type)+'</td><td>'+money(x.amount)+'</td><td>'+escapeHtml(x.frequency)+'</td><td><button class="secondary mini editFee" data-id="'+x.id+'">Edit</button></td></tr>').join(''):'<tr><td colspan="6" class="empty">No fee rules configured.</td></tr>';document.querySelectorAll('.editFee').forEach(b=>b.onclick=()=>openFee(b.dataset.id))}
+async function openFee(id){clearError($('feeError'));await loadAcademicSessions();$('feeId').value=id||'';$('feeModalTitle').textContent=id?'Edit Fee Rule':'Add Fee Rule';setOptions('feeSession',academicSessions,'Select session',x=>x.name+(x.is_current?' (Current)':''));setOptions('feeClass',classes,'All Classes',x=>x.name);$('feeSession').value='';$('feeClass').value='';$('feeType').value='';$('feeAmount').value='';$('feeFrequency').value='Annual';if(id){const r=await db.from('fee_structures').select('*').eq('id',id).single();if(r.error){showError($('feeError'),r.error.message);return}const x=r.data;$('feeSession').value=x.academic_session_id;$('feeClass').value=x.class_id||'';$('feeType').value=x.fee_type;$('feeAmount').value=x.amount;$('feeFrequency').value=x.frequency}$('feeModal').style.display='flex'}
+async function saveFee(e){e.preventDefault();clearError($('feeError'));if(!adminOnly()){showError($('feeError'),'Only an Administrator can change fee structure.');return}const id=$('feeId').value,p={school_id:schoolId,academic_session_id:$('feeSession').value,class_id:$('feeClass').value||null,fee_type:$('feeType').value.trim(),amount:Number($('feeAmount').value),frequency:$('feeFrequency').value};if(!p.academic_session_id||!p.fee_type||!(p.amount>=0)){showError($('feeError'),'Session, fee type and a valid amount are required.');return}const r=id?await db.from('fee_structures').update(p).eq('id',id):await db.from('fee_structures').insert(p);if(r.error){showError($('feeError'),r.error.message);return}$('feeModal').style.display='none';await loadFeeStructures();await audit('FEE_STRUCTURE_'+(id?'UPDATED':'CREATED'),'fee_structure',id||null,p)}
+async function generateDemandFromRules(sessionId){if(!adminOnly())return;const rules=await db.from('fee_structures').select('id,class_id,fee_type,amount,frequency').eq('academic_session_id',sessionId);if(rules.error)throw rules.error;const ss=await db.from('student_sessions').select('student_id,class_id').eq('academic_session_id',sessionId).eq('status','Active');if(ss.error)throw ss.error;const existing=await db.from('fee_demands').select('student_id,fee_type').eq('academic_session_id',sessionId);if(existing.error)throw existing.error;const have=new Set((existing.data||[]).map(x=>x.student_id+'|'+x.fee_type)),rows=[];for(const rule of(rules.data||[]))for(const s of(ss.data||[])){if(rule.class_id&&rule.class_id!==s.class_id)continue;const key=s.student_id+'|'+rule.fee_type;if(have.has(key))continue;rows.push({student_id:s.student_id,academic_session_id:sessionId,fee_type:rule.fee_type,amount:rule.amount})}if(rows.length){const ins=await db.from('fee_demands').insert(rows);if(ins.error)throw ins.error}return rows.length}
+async function loadLedgerOptions(){setOptions('ledgerStudent',students,'Select student',x=>(x.admission_no?x.admission_no+' • ':'')+x.name);setOptions('ledgerSession',academicSessions,'All sessions',x=>x.name)}
+async function loadLedger(){const sid=$('ledgerStudent').value;if(!sid){$('ledgerRows').innerHTML='<tr><td colspan="7" class="empty">Select a student.</td></tr>';$('ledgerSummary').innerHTML='';return}const session=$('ledgerSession').value;const[d,p]=await Promise.all([db.from('fee_demands').select('id,academic_session_id,fee_type,amount,due_date,notes').eq('student_id',sid),db.from('fee_payments').select('id,academic_session_id,amount,payment_date,payment_mode,reference_no,academic_sessions(name)').eq('student_id',sid)]);if(d.error||p.error){$('ledgerRows').innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml((d.error||p.error).message)+'</td></tr>';return}const events=[];(d.data||[]).filter(x=>!session||x.academic_session_id===session).forEach(x=>events.push({session:x.academic_session_id,sessionName:(academicSessions.find(s=>s.id===x.academic_session_id)||{}).name,date:x.due_date,type:'Demand',details:x.fee_type,demand:Number(x.amount),paid:0}));(p.data||[]).filter(x=>!session||x.academic_session_id===session).forEach(x=>events.push({session:x.academic_session_id,sessionName:x.academic_sessions?.name,date:x.payment_date,type:'Payment',details:x.payment_mode+(x.reference_no?' • '+x.reference_no:''),demand:0,paid:Number(x.amount)}));events.sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));let run=0,totalD=0,totalP=0;$('ledgerRows').innerHTML=events.length?events.map(x=>{totalD+=x.demand;totalP+=x.paid;run+=x.demand-x.paid;return '<tr><td>'+escapeHtml(x.sessionName||'—')+'</td><td>'+escapeHtml(x.date||'—')+'</td><td><strong>'+escapeHtml(x.type)+'</strong></td><td>'+escapeHtml(x.details||'—')+'</td><td>'+money(x.demand)+'</td><td>'+money(x.paid)+'</td><td>'+money(run)+'</td></tr>'}).join(''):'<tr><td colspan="7" class="empty">No ledger entries for this student/session.</td></tr>';$('ledgerSummary').innerHTML='<div class="panel"><div class="label">Total Demand</div><div class="value">'+money(totalD)+'</div></div><div class="panel"><div class="label">Total Paid</div><div class="value">'+money(totalP)+'</div></div><div class="panel"><div class="label">Outstanding</div><div class="value">'+money(totalD-totalP)+'</div></div>'}
+async function openPayment(){if(!canCollect()){alert('You do not have permission to collect fees.');return}setOptions('payStudent',students,'Select student',x=>(x.admission_no?x.admission_no+' • ':'')+x.name);setOptions('paySession',academicSessions,'Select session',x=>x.name+(x.is_current?' (Current)':''));$('payDate').value=new Date().toISOString().slice(0,10);$('payAmount').value='';$('payRef').value='';$('payNotes').value='';$('paymentModal').style.display='flex'}
+async function savePayment(e){e.preventDefault();clearError($('paymentError'));if(!canCollect()){showError($('paymentError'),'You do not have permission to collect fees.');return}const amount=Number($('payAmount').value);if(!amount||amount<=0){showError($('paymentError'),'Enter a valid payment amount.');return}const p={student_id:$('payStudent').value,academic_session_id:$('paySession').value,amount,payment_date:$('payDate').value||null,payment_mode:$('payMode').value,reference_no:$('payRef').value.trim()||null,notes:$('payNotes').value.trim()||null};if(!p.student_id||!p.academic_session_id){showError($('paymentError'),'Student and academic session are required.');return}const ins=await db.from('fee_payments').insert(p).select('id').single();if(ins.error){showError($('paymentError'),ins.error.message);return}const receiptNo='REC-'+new Date().toISOString().slice(0,10).replaceAll('-','')+'-'+Math.random().toString(36).slice(2,7).toUpperCase(),rr=await db.from('receipts').insert({payment_id:ins.data.id,receipt_no:receiptNo}).select('id').single();if(rr.error){showError($('paymentError'),'Payment saved, but receipt creation failed: '+rr.error.message);return}$('paymentModal').style.display='none';$('cashierMessage').innerHTML='<div class="notice">Payment recorded. Receipt <strong>'+receiptNo+'</strong> created.</div>';await loadDashboard();await loadPayments();await audit('PAYMENT_CREATED','fee_payment',ins.data.id,{amount,receipt_no:receiptNo})}
+async function loadPayments(){const q=($('paymentSearch').value||'').toLowerCase(),r=await db.from('fee_payments').select('id,student_id,academic_session_id,amount,payment_date,payment_mode,reference_no,students(name,admission_no),academic_sessions(name),receipts(receipt_no)').order('payment_date',{ascending:false});if(r.error){$('paymentRows').innerHTML='<tr><td colspan="8" class="empty">'+escapeHtml(r.error.message)+'</td></tr>';return}const rows=(r.data||[]).filter(x=>!q||[x.students?.name,x.students?.admission_no,x.receipts?.receipt_no,x.reference_no].some(v=>String(v||'').toLowerCase().includes(q)));$('paymentRows').innerHTML=rows.length?rows.map(x=>'<tr><td>'+escapeHtml(x.payment_date||'—')+'</td><td><strong>'+escapeHtml(x.receipts?.receipt_no||'—')+'</strong></td><td>'+escapeHtml(x.students?.name||'—')+'</td><td>'+escapeHtml(x.academic_sessions?.name||'—')+'</td><td>'+escapeHtml(x.payment_mode)+'</td><td>'+money(x.amount)+'</td><td>'+escapeHtml(x.reference_no||'—')+'</td><td><button class="secondary mini" onclick="window.print()">Print</button></td></tr>').join(''):'<tr><td colspan="8" class="empty">No payments found.</td></tr>'}
+async function loadUsers(){if(!adminOnly()){$('userRows').innerHTML='<tr><td colspan="5" class="empty">Administrator access required.</td></tr>';return}const r=await db.from('user_profiles').select('id,full_name,role,is_active').order('full_name');if(r.error){$('userRows').innerHTML='<tr><td colspan="5" class="empty">'+escapeHtml(r.error.message)+'</td></tr>';return}$('userRows').innerHTML=(r.data||[]).map(x=>'<tr><td>'+escapeHtml(x.full_name||'—')+'</td><td><small>'+escapeHtml(x.id)+'</small></td><td>'+escapeHtml(x.role)+'</td><td>'+(x.is_active?'Active':'Inactive')+'</td><td><button class="secondary mini editUser" data-id="'+x.id+'">Edit</button></td></tr>').join('');window.erpUsers=r.data||[];document.querySelectorAll('.editUser').forEach(b=>b.onclick=()=>openUser(b.dataset.id))}
+function openUser(id){const x=(window.erpUsers||[]).find(v=>v.id===id);if(!x)return;$('userId').value=id;$('userRole').value=x.role;$('userActive').value=String(x.is_active);$('userModal').style.display='flex'}async function saveUser(e){e.preventDefault();clearError($('userError'));if(!adminOnly()){showError($('userError'),'Administrator access required.');return}const id=$('userId').value,r=await db.from('user_profiles').update({role:$('userRole').value,is_active:$('userActive').value==='true'}).eq('id',id);if(r.error){showError($('userError'),r.error.message);return}$('userModal').style.display='none';await loadUsers();await audit('USER_PROFILE_UPDATED','user_profile',id,{role:$('userRole').value,is_active:$('userActive').value==='true'});if(id===currentUser?.id)await loadProfile()}
+async function loadAudit(){if(!adminOnly()){$('auditRows').innerHTML='<tr><td colspan="5" class="empty">Administrator access required.</td></tr>';return}const r=await db.from('audit_logs').select('id,action,entity_type,entity_id,user_id,details,created_at').order('created_at',{ascending:false}).limit(200);if(r.error){$('auditRows').innerHTML='<tr><td colspan="5" class="empty">'+escapeHtml(r.error.message)+'</td></tr>';return}$('auditRows').innerHTML=(r.data||[]).map(x=>'<tr><td>'+escapeHtml(new Date(x.created_at).toLocaleString())+'</td><td>'+escapeHtml(x.action)+'</td><td>'+escapeHtml((x.entity_type||'')+(x.entity_id?' • '+x.entity_id:''))+'</td><td>'+escapeHtml(x.user_id||'—')+'</td><td><small>'+escapeHtml(JSON.stringify(x.details||{}))+'</small></td></tr>').join('')||'<tr><td colspan="5" class="empty">No audit records.</td></tr>'}
+async function audit(action,entityType,entityId,details){try{await db.from('audit_logs').insert({school_id:schoolId,user_id:currentUser?.id||null,action,entity_type:entityType,entity_id:entityId,details:details||{}})}catch(_){} }
+async function refreshModule(page){if(page==='fees'){await loadAcademicSessions();setOptions('feeClassFilter',classes,'All Classes',x=>x.name);await loadFeeStructures()}if(page==='ledger'){await loadAcademicSessions();await loadLedgerOptions();await loadLedger()}if(page==='payments')await loadPayments();if(page==='users')await loadUsers();if(page==='audit')await loadAudit()}
+$('loginBtn').onclick=signIn;$('addStudentBtn').onclick=()=>openStudent('');$('cancelStudent').onclick=closeStudent;$('studentForm').onsubmit=saveStudent;$('studentSearch').oninput=renderStudents;$('studentStatus').onchange=renderStudents;document.querySelectorAll('nav button[data-page]').forEach(b=>b.onclick=async()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$('page-'+b.dataset.page).classList.add('active');try{await refreshModule(b.dataset.page)}catch(e){console.error(e)}});$('closeProfile').onclick=()=>{$('profileModal').style.display='none'};$('addSessionBtn').onclick=async()=>{const id=$('profileModal').dataset.studentId;if(id)await openSessionForm(id,'')};$('cancelSession').onclick=()=>{$('sessionModal').style.display='none'};$('sessionClassSelect').onchange=()=>loadSections($('sessionClassSelect').value,'');$('sessionForm').onsubmit=saveSession;$('addFeeBtn').onclick=()=>openFee('');$('cancelFee').onclick=()=>{$('feeModal').style.display='none'};$('feeForm').onsubmit=saveFee;$('feeSessionFilter').onchange=loadFeeStructures;$('feeClassFilter').onchange=loadFeeStructures;$('ledgerStudent').onchange=loadLedger;$('ledgerSession').onchange=loadLedger;$('newPaymentBtn').onclick=openPayment;$('cancelPayment').onclick=()=>{$('paymentModal').style.display='none'};$('paymentForm').onsubmit=savePayment;$('paymentSearch').oninput=loadPayments;$('paymentRefresh').onclick=loadPayments;$('cancelUser').onclick=()=>{$('userModal').style.display='none'};$('userForm').onsubmit=saveUser;$('auditRefresh').onclick=loadAudit;$('dashSession').onchange=loadDashboardReports;$('dashMonth').onchange=loadDashboardReports;$('generateDemandBtn').onclick=async()=>{if(!adminOnly()){alert('Administrator access required.');return}const sid=$('feeSessionFilter').value;if(!sid){alert('Select an academic session first.');return}try{const n=await generateDemandFromRules(sid);$('feeMessage').innerHTML='<div class="notice">'+n+' new demand record(s) generated.</div>';await loadDashboardReports()}catch(e){$('feeMessage').innerHTML='<div class="error">'+escapeHtml(e.message)+'</div>'}};
+async function boot(){try{if(!await loadProfile())return;$('login').style.display='none';$('app').style.display='block';monthOptions();await Promise.all([loadDashboard(),loadClasses(),loadStudents(),loadAcademicSessions()]);await loadDashboardReports();$('status').textContent='Database: connected'}catch(e){$('login').style.display='flex';$('app').style.display='none';showError($('loginError'),e.message||String(e));$('status').textContent='Database: error'}}db.auth.onAuthStateChange(()=>setTimeout(boot,0));boot();
 })();
-</script>
-</body>
-</html>
+</script></body></html>
