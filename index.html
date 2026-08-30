@@ -397,7 +397,7 @@ async function loadLedger(){
   const sid=$('ledgerStudent').value;if(!sid){$('ledgerRows').innerHTML='<tr><td colspan="7" class="empty">Select a student.</td></tr>';$('ledgerSummary').innerHTML='';return}
   const session=$('ledgerSession').value;
   const [d,p]=await Promise.all([
-    db.from('fee_demands').select('id,academic_session_id,fee_type,amount,due_date,notes,academic_sessions(name)').eq('student_id',sid),
+    db.from('fee_demands').select('id,academic_session_id,fee_type,amount,due_date,notes,academic_sessions!fee_demands_academic_session_id_fkey(name)').eq('student_id',sid),
     db.from('fee_payments').select('id,academic_session_id,amount,payment_date,payment_mode,reference_no,academic_sessions(name)').eq('student_id',sid)
   ]);
   if(d.error||p.error){$('ledgerRows').innerHTML='<tr><td colspan="7" class="empty">'+escapeHtml((d.error||p.error).message)+'</td></tr>';return}
